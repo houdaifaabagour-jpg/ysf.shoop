@@ -14,7 +14,8 @@ export default async function StorefrontLayout({
 
   return (
     <div lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
-      <Header user={session?.user} />
+      <div className="noise-overlay" aria-hidden="true" />
+      <Header user={session?.user} locale={locale} />
       <main className="flex-1">{children}</main>
       <Footer />
     </div>

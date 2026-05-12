@@ -1,5 +1,20 @@
 import { createClient } from "@/lib/supabase/server";
+import { getStorageUrl } from "@/lib/supabase/client";
 import type { Product, Category } from "@/types/database";
+
+function processProductImages(product: Product): Product {
+  if (product.images) {
+    product.images = product.images.map((img) => ({
+      ...img,
+      url: getStorageUrl("product-images", img.url) ?? img.url,
+    }));
+  }
+  return product;
+}
+
+function processProducts(products: Product[]): Product[] {
+  return products.map(processProductImages);
+}
 
 export async function getProducts(options?: {
   categorySlug?: string;
@@ -38,7 +53,7 @@ export async function getProducts(options?: {
   query = query.range(from, to);
 
   const { data, count } = await query;
-  return { products: (data ?? []) as Product[], count: count ?? 0 };
+  return { products: processProducts(data ?? []), count: count ?? 0 };
 }
 
 export async function getProduct(slug: string) {
@@ -49,7 +64,7 @@ export async function getProduct(slug: string) {
     .eq("slug", slug)
     .eq("is_active", true)
     .single();
-  return data as Product | null;
+  return data ? processProductImages(data as Product) : null;
 }
 
 export async function getFeaturedProducts() {
@@ -61,7 +76,7 @@ export async function getFeaturedProducts() {
     .eq("is_active", true)
     .order("created_at", { ascending: false })
     .limit(8);
-  return (data ?? []) as Product[];
+  return processProducts(data ?? []);
 }
 
 export async function getCategories() {
@@ -92,5 +107,5 @@ export async function getRelatedProducts(productId: string) {
     .eq("is_active", true)
     .neq("id", productId)
     .limit(4);
-  return (data ?? []) as Product[];
+  return processProducts(data ?? []);
 }

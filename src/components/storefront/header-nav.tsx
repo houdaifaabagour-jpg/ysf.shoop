@@ -3,18 +3,31 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
-export function HeaderNav() {
+interface HeaderNavProps {
+  locale: string;
+}
+
+export function HeaderNav({ locale }: HeaderNavProps) {
   const t = useTranslations("common");
 
   return (
-    <nav className="hidden items-center gap-6 text-sm md:flex">
-      <Link href="/shop" className="font-medium transition-colors hover:text-primary-light">
+    <nav className="hidden items-center gap-1 text-sm md:flex">
+      <Link
+        href={`/${locale}/shop`}
+        className="rounded-full px-4 py-2 font-medium transition-all hover:bg-black/5 hover:text-primary"
+      >
         {t("shop")}
       </Link>
-      <Link href="/category/watches" className="transition-colors hover:text-primary-light">
+      <Link
+        href={`/${locale}/category/watches`}
+        className="rounded-full px-4 py-2 transition-all hover:bg-black/5 hover:text-primary"
+      >
         {t("watches")}
       </Link>
-      <Link href="/category/glasses" className="transition-colors hover:text-primary-light">
+      <Link
+        href={`/${locale}/category/glasses`}
+        className="rounded-full px-4 py-2 transition-all hover:bg-black/5 hover:text-primary"
+      >
         {t("glasses")}
       </Link>
     </nav>

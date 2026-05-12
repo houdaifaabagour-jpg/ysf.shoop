@@ -8,6 +8,8 @@ import { Globe, ChevronDown } from "lucide-react";
 const locales = [
   { code: "en", label: "EN", name: "English" },
   { code: "ar", label: "عربي", name: "العربية" },
+  { code: "fr", label: "FR", name: "Français" },
+  { code: "es", label: "ES", name: "Español" },
 ];
 
 export function LanguageSwitcher() {

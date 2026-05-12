@@ -36,3 +36,5 @@
 [35069706ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://ysf-shoop.vercel.app/category/watches:0
 [35072841ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://ysf-shoop.vercel.app/category/watches?_rsc=CnS1fQ4cBrkKy5Lu:0
 [35075964ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://ysf-shoop.vercel.app/signup/login:0
+[36289749ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://ysf-shoop.vercel.app/category/watches?_rsc=ry-B8umWgNEV4JR9:0
+[36290576ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://ysf-shoop.vercel.app/category/watches?_rsc=uHqCsj4SQR6vibxi:0

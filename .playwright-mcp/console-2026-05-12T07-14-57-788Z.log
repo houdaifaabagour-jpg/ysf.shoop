@@ -38,3 +38,69 @@
 [35075964ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://ysf-shoop.vercel.app/signup/login:0
 [36289749ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://ysf-shoop.vercel.app/category/watches?_rsc=ry-B8umWgNEV4JR9:0
 [36290576ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://ysf-shoop.vercel.app/category/watches?_rsc=uHqCsj4SQR6vibxi:0
+[39132564ms] [ERROR] p: MISSING_MESSAGE: common.sunglasses (en)
+    at c (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:7909)
+    at m (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:8096)
+    at f (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:8555)
+    at https://ysf-shoop.vercel.app/_next/static/chunks/0zxxn~1talynl.js:1:2171
+    at aw (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:64306)
+    at oZ (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:84271)
+    at sp (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:139084)
+    at https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:133422
+    at se (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:133931)
+    at s$ (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:160495) @ https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:2
+[39132565ms] [ERROR] p: MISSING_MESSAGE: common.sunglasses (en)
+    at c (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:7909)
+    at m (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:8096)
+    at f (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:8555)
+    at https://ysf-shoop.vercel.app/_next/static/chunks/0zxxn~1talynl.js:1:4882
+    at https://ysf-shoop.vercel.app/_next/static/chunks/0zxxn~1talynl.js:1:4924
+    at Array.map (<anonymous>)
+    at https://ysf-shoop.vercel.app/_next/static/chunks/0zxxn~1talynl.js:1:3269
+    at aw (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:64306)
+    at oZ (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:84271)
+    at sp (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:139084) @ https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:2
+[39132566ms] [ERROR] p: MISSING_MESSAGE: common.sunglasses (en)
+    at c (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:7909)
+    at m (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:8096)
+    at f (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:8555)
+    at https://ysf-shoop.vercel.app/_next/static/chunks/0zxxn~1talynl.js:1:4882
+    at https://ysf-shoop.vercel.app/_next/static/chunks/0zxxn~1talynl.js:1:4924
+    at Array.map (<anonymous>)
+    at https://ysf-shoop.vercel.app/_next/static/chunks/0zxxn~1talynl.js:1:3269
+    at aw (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:64306)
+    at oZ (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:84271)
+    at sp (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:139084) @ https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:2
+[39139777ms] [ERROR] p: MISSING_MESSAGE: common.sunglasses (en)
+    at c (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:7909)
+    at m (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:8096)
+    at f (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:8555)
+    at https://ysf-shoop.vercel.app/_next/static/chunks/0zxxn~1talynl.js:1:2171
+    at aw (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:64306)
+    at oZ (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:84271)
+    at sp (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:139084)
+    at https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:133422
+    at se (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:133931)
+    at s$ (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:160495) @ https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:2
+[39139778ms] [ERROR] p: MISSING_MESSAGE: common.sunglasses (en)
+    at c (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:7909)
+    at m (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:8096)
+    at f (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:8555)
+    at https://ysf-shoop.vercel.app/_next/static/chunks/0zxxn~1talynl.js:1:4882
+    at https://ysf-shoop.vercel.app/_next/static/chunks/0zxxn~1talynl.js:1:4924
+    at Array.map (<anonymous>)
+    at https://ysf-shoop.vercel.app/_next/static/chunks/0zxxn~1talynl.js:1:3269
+    at aw (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:64306)
+    at oZ (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:84271)
+    at sp (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:139084) @ https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:2
+[39139779ms] [ERROR] p: MISSING_MESSAGE: common.sunglasses (en)
+    at c (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:7909)
+    at m (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:8096)
+    at f (https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:3:8555)
+    at https://ysf-shoop.vercel.app/_next/static/chunks/0zxxn~1talynl.js:1:4882
+    at https://ysf-shoop.vercel.app/_next/static/chunks/0zxxn~1talynl.js:1:4924
+    at Array.map (<anonymous>)
+    at https://ysf-shoop.vercel.app/_next/static/chunks/0zxxn~1talynl.js:1:3269
+    at aw (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:64306)
+    at oZ (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:84271)
+    at sp (https://ysf-shoop.vercel.app/_next/static/chunks/10u3y4bw1ayzs.js:1:139084) @ https://ysf-shoop.vercel.app/_next/static/chunks/0ww.8382ipo~g.js:2

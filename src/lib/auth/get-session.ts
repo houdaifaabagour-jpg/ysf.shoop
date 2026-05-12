@@ -1,18 +1,27 @@
-import { createClient } from "@/lib/supabase/server";
-
 export async function getSession() {
-  const supabase = await createClient();
-  const { data: { session }, error } = await supabase.auth.getSession();
-  if (error) return null;
-  return session;
+  try {
+    const { createClient } = await import("@/lib/supabase/server");
+    const supabase = await createClient();
+    const { data: { session } } = await supabase.auth.getSession();
+    return session;
+  } catch (e) {
+    console.error("getSession error:", e);
+    return null;
+  }
 }
 
 export async function getProfile() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-  const { data } = await supabase.from("profiles").select("*").eq("id", user.id).single();
-  return data;
+  try {
+    const { createClient } = await import("@/lib/supabase/server");
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return null;
+    const { data } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+    return data;
+  } catch (e) {
+    console.error("getProfile error:", e);
+    return null;
+  }
 }
 
 export async function requireAuth() {

@@ -1,19 +1,20 @@
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
 
-export async function Footer() {
-  const t = await getTranslations("footer");
+interface FooterProps {
+  locale?: string;
+}
 
+export function Footer({ locale = "ar" }: FooterProps) {
   return (
     <footer className="bg-primary text-white">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-4">
           <div>
-            <Link href="/" className="text-2xl font-bold tracking-tight">
+            <Link href={`/${locale}`} className="text-2xl font-bold tracking-tight">
               ysf.shoop
             </Link>
             <p className="mt-4 text-sm text-white/70 leading-relaxed">
-              {t("tagline")}
+              متجرك الأول للساعات الفاخرة والنظارات الأنيقة
             </p>
             <div className="mt-6 flex gap-4">
               <a href="#" className="p-2 rounded-full bg-white/10 hover:bg-gold transition-colors" aria-label="Instagram">
@@ -29,21 +30,21 @@ export async function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold mb-4">{t("links")}</h3>
+            <h3 className="text-sm font-semibold mb-4">روابط سريعة</h3>
             <ul className="space-y-3 text-sm text-white/70">
-              <li><Link href="/shop" className="hover:text-gold transition-colors">المتجر</Link></li>
-              <li><Link href="/category/watches" className="hover:text-gold transition-colors">الساعات</Link></li>
-              <li><Link href="/category/glasses" className="hover:text-gold transition-colors">النظارات</Link></li>
-              <li><Link href="/category/sunglasses" className="hover:text-gold transition-colors">نظارات شمسية</Link></li>
+              <li><Link href={`/${locale}/shop`} className="hover:text-gold transition-colors">المتجر</Link></li>
+              <li><Link href={`/${locale}/category/watches`} className="hover:text-gold transition-colors">الساعات</Link></li>
+              <li><Link href={`/${locale}/category/glasses`} className="hover:text-gold transition-colors">النظارات</Link></li>
+              <li><Link href={`/${locale}/category/sunglasses`} className="hover:text-gold transition-colors">نظارات شمسية</Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold mb-4">{t("support")}</h3>
+            <h3 className="text-sm font-semibold mb-4">حسابي</h3>
             <ul className="space-y-3 text-sm text-white/70">
-              <li><Link href="/account" className="hover:text-gold transition-colors">حسابي</Link></li>
-              <li><Link href="/account/orders" className="hover:text-gold transition-colors">{t("orderTracking")}</Link></li>
-              <li><Link href="/account/wishlist" className="hover:text-gold transition-colors">المفضلة</Link></li>
+              <li><Link href={`/${locale}/account`} className="hover:text-gold transition-colors">حسابي</Link></li>
+              <li><Link href={`/${locale}/account/orders`} className="hover:text-gold transition-colors">طلباتي</Link></li>
+              <li><Link href={`/${locale}/account/wishlist`} className="hover:text-gold transition-colors">المفضلة</Link></li>
             </ul>
           </div>
 
@@ -59,7 +60,7 @@ export async function Footer() {
         <div className="mt-12 pt-8 border-t border-white/10">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-sm text-white/50">
-              © {new Date().getFullYear()} ysf.shoop. {t("allRightsReserved")}
+              © {new Date().getFullYear()} ysf.shoop. جميع الحقوق محفوظة
             </p>
             <div className="flex items-center gap-6 text-sm text-white/50">
               <a href="#" className="hover:text-gold transition-colors">سياسة الخصوصية</a>

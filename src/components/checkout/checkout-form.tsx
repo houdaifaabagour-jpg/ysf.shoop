@@ -8,9 +8,10 @@ import { useTranslations } from "next-intl";
 
 interface CheckoutFormProps {
   cart: { id: string; items: CartItem[] };
+  locale?: string;
 }
 
-export function CheckoutForm({ cart }: CheckoutFormProps) {
+export function CheckoutForm({ cart, locale = "en" }: CheckoutFormProps) {
   const [couponId, setCouponId] = useState("");
   const [discount, setDiscount] = useState(0);
   const t = useTranslations("checkout");
@@ -32,6 +33,7 @@ export function CheckoutForm({ cart }: CheckoutFormProps) {
           <form action={createCODOrder} className="space-y-4">
             <input type="hidden" name="couponId" value={couponId} />
             <input type="hidden" name="discount" value={discount} />
+            <input type="hidden" name="locale" value={locale} />
 
             <div>
               <label htmlFor="fullName" className="text-sm font-medium block mb-1.5">{t("fullName")}</label>

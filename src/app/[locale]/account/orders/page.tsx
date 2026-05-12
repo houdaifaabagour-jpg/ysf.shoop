@@ -47,9 +47,14 @@ export default async function OrdersPage({ params }: { params: Promise<{ locale:
               </div>
               <span className="font-semibold">{Number(order.total).toLocaleString()} ر.س</span>
             </div>
-            <p className="mt-1 text-xs text-muted-foreground">
-              {new Date(order.created_at).toLocaleDateString("ar-SA")} &middot; {order.items?.length ?? 0} منتجات
-            </p>
+            <div className="mt-2 flex items-center justify-between">
+              <p className="text-xs text-muted-foreground">
+                {new Date(order.created_at).toLocaleDateString("ar-SA")} &middot; {order.items?.length ?? 0} منتجات
+              </p>
+              <Link href={`/${locale}/track-order/${order.id}`} className="text-xs text-gold hover:underline">
+                تتبع الطلب
+              </Link>
+            </div>
           </div>
         ))}
       </div>

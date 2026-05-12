@@ -11,6 +11,8 @@ export async function createCODOrder(formData: FormData) {
   const session = await getSession();
   if (!session?.user) throw new Error("Please sign in to checkout");
 
+  const locale = formData.get("locale") as string || "en";
+
   const raw = {
     fullName: formData.get("fullName") as string,
     phone: formData.get("phone") as string,
@@ -124,5 +126,5 @@ export async function createCODOrder(formData: FormData) {
 
   logger.info("order_created", { orderId: order.id, total: total + shippingCost });
 
-  redirect(`/checkout/success?orderId=${order.id}`);
+  redirect(`/${locale}/checkout/success?orderId=${order.id}`);
 }

@@ -5,29 +5,34 @@ import { useActionState } from "react";
 import { login } from "@/features/account/actions";
 import { useTranslations } from "next-intl";
 
-export function LoginForm() {
+interface LoginFormProps {
+  locale: string;
+}
+
+export function LoginForm({ locale }: LoginFormProps) {
   const t = useTranslations("auth");
   const [state, action, pending] = useActionState(login, { error: undefined });
 
   return (
-    <form action={action} className="mt-8 space-y-4">
+    <form action={action} className="space-y-4">
       {state?.error && (
-        <p className="rounded-md bg-danger/10 p-3 text-sm text-danger">{state.error}</p>
+        <p className="rounded-md bg-red-50 p-3 text-sm text-red-600">{state.error}</p>
       )}
       <div>
-        <label htmlFor="email" className="text-sm font-medium">{t("email")}</label>
-        <input id="email" name="email" type="email" required className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm" />
+        <label htmlFor="email" className="block text-sm font-medium mb-2">{t("email")}</label>
+        <input id="email" name="email" type="email" required className="w-full px-4 py-3 rounded-xl border luxury-border focus:outline-none focus:ring-2 focus:ring-gold/50" placeholder="example@email.com" />
       </div>
       <div>
-        <label htmlFor="password" className="text-sm font-medium">{t("password")}</label>
-        <input id="password" name="password" type="password" required className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm" />
+        <label htmlFor="password" className="block text-sm font-medium mb-2">{t("password")}</label>
+        <input id="password" name="password" type="password" required className="w-full px-4 py-3 rounded-xl border luxury-border focus:outline-none focus:ring-2 focus:ring-gold/50" placeholder="••••••••" />
       </div>
-      <button type="submit" disabled={pending} className="w-full rounded-lg bg-primary px-8 py-3 text-sm font-medium text-white hover:bg-primary-light disabled:opacity-50">
+      <input type="hidden" name="locale" value={locale} />
+      <button type="submit" disabled={pending} className="btn-luxury btn-luxury-primary w-full disabled:opacity-50">
         {pending ? t("loggingIn") : t("signIn")}
       </button>
-      <p className="text-center text-sm text-muted-foreground">
-        {t("noAccount")} <Link href="/signup" className="text-primary hover:underline">{t("createAccount")}</Link>
-      </p>
+      <div className="mt-6 text-center text-sm text-muted-foreground">
+        {t("noAccount")} <Link href={`/${locale}/signup`} className="text-gold hover:underline">{t("createAccount")}</Link>
+      </div>
     </form>
   );
 }

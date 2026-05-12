@@ -3,11 +3,12 @@ import { createClient } from "@/lib/supabase/server";
 import { getSession } from "@/lib/auth/get-session";
 import { redirect } from "next/navigation";
 
-export const metadata = { title: "My Orders" };
+export const metadata = { title: "طلباتي" };
 
-export default async function OrdersPage() {
+export default async function OrdersPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const session = await getSession();
-  if (!session?.user) redirect("/login");
+  if (!session?.user) redirect(`/${locale}/login`);
 
   const supabase = await createClient();
   const { data: orders } = await supabase
@@ -16,15 +17,20 @@ export default async function OrdersPage() {
     .eq("customer_id", session.user.id)
     .order("created_at", { ascending: false });
 
+  const statusMap: Record<string, string> = {
+    pending_confirmation: "قيد الانتظار", confirmed: "مؤكد", packed: "تم التجهيز",
+    shipped: "تم الشحن", delivered: "تم التوصيل", refused: "مرفوض", returned: "مرجع", cancelled: "ملغي"
+  };
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
-      <h1 className="text-2xl font-bold">My Orders</h1>
+      <h1 className="text-2xl font-bold">طلباتي</h1>
 
       {!orders?.length && (
         <div className="mt-8 text-center">
-          <p className="text-muted-foreground">No orders yet.</p>
-          <Link href="/shop" className="mt-4 inline-block text-sm font-medium text-primary hover:underline">
-            Start Shopping
+          <p className="text-muted-foreground">لا توجد طلبات بعد.</p>
+          <Link href={`/${locale}/shop`} className="mt-4 inline-block text-sm font-medium text-primary hover:underline">
+            ابدأ التسوق
           </Link>
         </div>
       )}
@@ -34,15 +40,15 @@ export default async function OrdersPage() {
           <div key={order.id} className="rounded-lg border border-border p-4">
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-sm font-medium">Order #{order.id.slice(0, 8)}</span>
-                <span className="ml-2 rounded-full bg-muted px-2 py-0.5 text-xs capitalize">
-                  {order.status.replace(/_/g, " ")}
+                <span className="text-sm font-medium">طلب #{order.id.slice(0, 8)}</span>
+                <span className="mr-2 rounded-full bg-muted px-2 py-0.5 text-xs">
+                  {statusMap[order.status] || order.status.replace(/_/g, " ")}
                 </span>
               </div>
-              <span className="font-semibold">${Number(order.total).toFixed(2)}</span>
+              <span className="font-semibold">{Number(order.total).toLocaleString()} ر.س</span>
             </div>
             <p className="mt-1 text-xs text-muted-foreground">
-              {new Date(order.created_at).toLocaleDateString()} &middot; {order.items?.length ?? 0} items
+              {new Date(order.created_at).toLocaleDateString("ar-SA")} &middot; {order.items?.length ?? 0} منتجات
             </p>
           </div>
         ))}

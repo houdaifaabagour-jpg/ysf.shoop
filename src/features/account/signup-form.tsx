@@ -5,33 +5,50 @@ import { useActionState } from "react";
 import { signup } from "@/features/account/actions";
 import { useTranslations } from "next-intl";
 
-export function SignupForm() {
-  const t = useTranslations("auth");
+interface SignupFormProps {
+  locale: string;
+}
+
+export function SignupForm({ locale }: SignupFormProps) {
+  const t = useTranslations();
   const [state, action, pending] = useActionState(signup, { error: undefined });
 
   return (
-    <form action={action} className="mt-8 space-y-4">
+    <form action={action} className="space-y-4">
       {state?.error && (
-        <p className="rounded-md bg-danger/10 p-3 text-sm text-danger">{state.error}</p>
+        <p className="rounded-md bg-red-50 p-3 text-sm text-red-600">{state.error}</p>
       )}
       <div>
-        <label htmlFor="name" className="text-sm font-medium">Full Name</label>
-        <input id="name" name="name" required className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm" />
+        <label htmlFor="name" className="block text-sm font-medium mb-2">{t("checkout.fullName")}</label>
+        <input id="name" name="name" type="text" required className="w-full px-4 py-3 rounded-xl border luxury-border focus:outline-none focus:ring-2 focus:ring-gold/50" placeholder={locale === "ar" ? "محمد أحمد" : "John Doe"} />
       </div>
       <div>
-        <label htmlFor="email" className="text-sm font-medium">{t("email")}</label>
-        <input id="email" name="email" type="email" required className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm" />
+        <label htmlFor="phone" className="block text-sm font-medium mb-2">{t("checkout.phone")}</label>
+        <input id="phone" name="phone" type="tel" required className="w-full px-4 py-3 rounded-xl border luxury-border focus:outline-none focus:ring-2 focus:ring-gold/50" placeholder="+966 5X XXX XXXX" />
       </div>
       <div>
-        <label htmlFor="password" className="text-sm font-medium">{t("password")}</label>
-        <input id="password" name="password" type="password" required minLength={6} className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm" />
+        <label htmlFor="email" className="block text-sm font-medium mb-2">{t("auth.email")}</label>
+        <input id="email" name="email" type="email" required className="w-full px-4 py-3 rounded-xl border luxury-border focus:outline-none focus:ring-2 focus:ring-gold/50" placeholder="example@email.com" />
       </div>
-      <button type="submit" disabled={pending} className="w-full rounded-lg bg-primary px-8 py-3 text-sm font-medium text-white hover:bg-primary-light disabled:opacity-50">
-        {pending ? t("creatingAccount") : t("signUp")}
+      <div>
+        <label htmlFor="password" className="block text-sm font-medium mb-2">{t("auth.password")}</label>
+        <input id="password" name="password" type="password" required minLength={6} className="w-full px-4 py-3 rounded-xl border luxury-border focus:outline-none focus:ring-2 focus:ring-gold/50" placeholder={locale === "ar" ? "6 أحرف على الأقل" : "At least 6 characters"} />
+      </div>
+      <div>
+        <label htmlFor="confirmPassword" className="block text-sm font-medium mb-2">{t("auth.confirmPassword")}</label>
+        <input id="confirmPassword" name="confirmPassword" type="password" required className="w-full px-4 py-3 rounded-xl border luxury-border focus:outline-none focus:ring-2 focus:ring-gold/50" placeholder="••••••••" />
+      </div>
+      <label className="flex items-start gap-2 text-sm text-muted-foreground">
+        <input type="checkbox" required className="mt-1 rounded" />
+        {locale === "ar" ? "أوافق على" : "I agree to"} <a href="#" className="text-gold hover:underline">{t("footer.terms")}</a> {locale === "ar" ? "و" : "and"} <a href="#" className="text-gold hover:underline">{t("footer.privacyPolicy")}</a>
+      </label>
+      <input type="hidden" name="locale" value={locale} />
+      <button type="submit" disabled={pending} className="btn-luxury btn-luxury-primary w-full disabled:opacity-50">
+        {pending ? t("auth.creatingAccount") : t("auth.signUp")}
       </button>
-      <p className="text-center text-sm text-muted-foreground">
-        {t("haveAccount")} <Link href="/login" className="text-primary hover:underline">{t("signInLink")}</Link>
-      </p>
+      <div className="mt-6 text-center text-sm text-muted-foreground">
+        {t("auth.haveAccount")} <Link href={`/${locale}/login`} className="text-gold hover:underline">{t("auth.signInLink")}</Link>
+      </div>
     </form>
   );
 }

@@ -1,0 +1,124 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "ysf.shoop" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e5]:
+        - link "Shop" [ref=e6] [cursor=pointer]:
+          - /url: /shop
+        - link "Watches" [ref=e7] [cursor=pointer]:
+          - /url: /category/watches
+        - link "Glasses" [ref=e8] [cursor=pointer]:
+          - /url: /category/glasses
+        - link "Cart" [ref=e9] [cursor=pointer]:
+          - /url: /cart
+  - main [ref=e10]:
+    - generic [ref=e11]:
+      - heading "Shop" [level=1] [ref=e12]
+      - generic [ref=e13]:
+        - link "All" [ref=e14] [cursor=pointer]:
+          - /url: /shop
+        - link "Watches" [ref=e15] [cursor=pointer]:
+          - /url: /category/watches
+        - link "Glasses" [ref=e16] [cursor=pointer]:
+          - /url: /category/glasses
+        - link "Smartwatches" [ref=e17] [cursor=pointer]:
+          - /url: /category/smartwatches
+        - link "Sunglasses" [ref=e18] [cursor=pointer]:
+          - /url: /category/sunglasses
+      - generic [ref=e19]:
+        - paragraph [ref=e20]: 0 products
+        - generic [ref=e21]:
+          - link "Newest" [ref=e22] [cursor=pointer]:
+            - /url: "?sort=newest"
+          - 'link "Price: Low" [ref=e23] [cursor=pointer]':
+            - /url: "?sort=price_asc"
+          - 'link "Price: High" [ref=e24] [cursor=pointer]':
+            - /url: "?sort=price_desc"
+      - generic [ref=e25]:
+        - link "No Image Classic Chronograph $299.99 $399.99" [ref=e26] [cursor=pointer]:
+          - /url: /product/classic-chronograph
+          - generic [ref=e28]: No Image
+          - generic [ref=e29]:
+            - heading "Classic Chronograph" [level=3] [ref=e30]
+            - generic [ref=e31]:
+              - generic [ref=e32]: $299.99
+              - generic [ref=e33]: $399.99
+        - link "No Image Minimalist Silver $189.99" [ref=e34] [cursor=pointer]:
+          - /url: /product/minimalist-silver
+          - generic [ref=e36]: No Image
+          - generic [ref=e37]:
+            - heading "Minimalist Silver" [level=3] [ref=e38]
+            - generic [ref=e40]: $189.99
+        - link "No Image Diver Pro 300 $449.99 $549.99" [ref=e41] [cursor=pointer]:
+          - /url: /product/diver-pro-300
+          - generic [ref=e43]: No Image
+          - generic [ref=e44]:
+            - heading "Diver Pro 300" [level=3] [ref=e45]
+            - generic [ref=e46]:
+              - generic [ref=e47]: $449.99
+              - generic [ref=e48]: $549.99
+        - link "No Image Aviator Pilot $379.99" [ref=e49] [cursor=pointer]:
+          - /url: /product/aviator-pilot
+          - generic [ref=e51]: No Image
+          - generic [ref=e52]:
+            - heading "Aviator Pilot" [level=3] [ref=e53]
+            - generic [ref=e55]: $379.99
+        - link "No Image Aviator Classic Gold $159.99 $219.99" [ref=e56] [cursor=pointer]:
+          - /url: /product/aviator-classic-gold
+          - generic [ref=e58]: No Image
+          - generic [ref=e59]:
+            - heading "Aviator Classic Gold" [level=3] [ref=e60]
+            - generic [ref=e61]:
+              - generic [ref=e62]: $159.99
+              - generic [ref=e63]: $219.99
+        - link "No Image Wayfarer Matte Black $129.99" [ref=e64] [cursor=pointer]:
+          - /url: /product/wayfarer-matte-black
+          - generic [ref=e66]: No Image
+          - generic [ref=e67]:
+            - heading "Wayfarer Matte Black" [level=3] [ref=e68]
+            - generic [ref=e70]: $129.99
+        - link "No Image Round Tortoise Shell $109.99 $149.99" [ref=e71] [cursor=pointer]:
+          - /url: /product/round-tortoise-shell
+          - generic [ref=e73]: No Image
+          - generic [ref=e74]:
+            - heading "Round Tortoise Shell" [level=3] [ref=e75]
+            - generic [ref=e76]:
+              - generic [ref=e77]: $109.99
+              - generic [ref=e78]: $149.99
+        - link "No Image Cat Eye Rose Gold $179.99" [ref=e79] [cursor=pointer]:
+          - /url: /product/cat-eye-rose-gold
+          - generic [ref=e81]: No Image
+          - generic [ref=e82]:
+            - heading "Cat Eye Rose Gold" [level=3] [ref=e83]
+            - generic [ref=e85]: $179.99
+  - contentinfo [ref=e86]:
+    - generic [ref=e87]:
+      - generic [ref=e88]:
+        - generic [ref=e89]:
+          - heading "ysf.shoop" [level=3] [ref=e90]
+          - paragraph [ref=e91]: Premium watches and glasses curated for style and precision.
+        - generic [ref=e92]:
+          - heading "Links" [level=3] [ref=e93]
+          - list [ref=e94]:
+            - listitem [ref=e95]:
+              - link "All Products" [ref=e96] [cursor=pointer]:
+                - /url: /shop
+            - listitem [ref=e97]:
+              - link "Watches" [ref=e98] [cursor=pointer]:
+                - /url: /category/watches
+            - listitem [ref=e99]:
+              - link "Glasses" [ref=e100] [cursor=pointer]:
+                - /url: /category/glasses
+        - generic [ref=e101]:
+          - heading "Support" [level=3] [ref=e102]
+          - list [ref=e103]:
+            - listitem [ref=e104]:
+              - link "My Account" [ref=e105] [cursor=pointer]:
+                - /url: /account
+            - listitem [ref=e106]:
+              - link "Order Tracking" [ref=e107] [cursor=pointer]:
+                - /url: /account/orders
+      - generic [ref=e108]: © 2026 ysf.shoop. All rights reserved.
+  - button "Open Next.js Dev Tools" [ref=e114] [cursor=pointer]:
+    - img [ref=e115]

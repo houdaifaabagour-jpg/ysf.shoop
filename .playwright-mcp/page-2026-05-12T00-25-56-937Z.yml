@@ -1,0 +1,92 @@
+- generic [ref=e1]:
+  - generic [active]:
+    - generic [ref=e58]:
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - navigation [ref=e61]:
+            - button "previous" [disabled] [ref=e62]:
+              - img "previous" [ref=e63]
+            - generic [ref=e65]:
+              - generic [ref=e66]: 1/
+              - text: "1"
+            - button "next" [disabled] [ref=e67]:
+              - img "next" [ref=e68]
+          - img
+        - generic [ref=e70]:
+          - generic [ref=e71]:
+            - img [ref=e72]
+            - generic "Latest available version is detected (16.2.6)." [ref=e74]: Next.js 16.2.6
+            - generic [ref=e75]: Turbopack
+          - img
+      - dialog "Runtime Error" [ref=e77]:
+        - generic [ref=e80]:
+          - generic [ref=e81]:
+            - generic [ref=e82]:
+              - generic [ref=e83]:
+                - generic [ref=e84]: Runtime Error
+                - generic [ref=e85]: Server
+              - generic [ref=e86]:
+                - button "Copy Error Info" [ref=e87] [cursor=pointer]:
+                  - img [ref=e88]
+                - button "No related documentation found" [disabled] [ref=e90]:
+                  - img [ref=e91]
+                - button "Attach Node.js inspector" [ref=e93] [cursor=pointer]:
+                  - img [ref=e94]
+            - generic [ref=e103]: Email address "test@example.com" is invalid
+          - generic [ref=e104]:
+            - generic [ref=e105]:
+              - paragraph [ref=e107]:
+                - img [ref=e109]
+                - generic [ref=e113]: src\features\account\actions.ts (16:11) @ signup
+                - button "Open in editor" [ref=e114] [cursor=pointer]:
+                  - img [ref=e116]
+              - generic [ref=e119]:
+                - generic [ref=e120]: "14 | if (error) {"
+                - generic [ref=e121]: "15 | logger.error(\"signup_failed\", { error: error.message });"
+                - generic [ref=e122]: "> 16 | throw new Error(error.message);"
+                - generic [ref=e123]: "| ^"
+                - generic [ref=e124]: "17 | }"
+                - generic [ref=e125]: 18 |
+                - generic [ref=e126]: "19 | if (authData.user) {"
+            - generic [ref=e127]:
+              - generic [ref=e128]:
+                - paragraph [ref=e129]:
+                  - text: Call Stack
+                  - generic [ref=e130]: "8"
+                - button "Show 5 ignore-listed frame(s)" [ref=e131] [cursor=pointer]:
+                  - text: Show 5 ignore-listed frame(s)
+                  - img [ref=e132]
+              - generic [ref=e134]:
+                - generic [ref=e135]:
+                  - text: signup
+                  - button "Open signup in editor" [ref=e136] [cursor=pointer]:
+                    - img [ref=e137]
+                - text: src\features\account\actions.ts (16:11)
+              - generic [ref=e139]:
+                - generic [ref=e140]: form
+                - text: <anonymous>
+              - generic [ref=e141]:
+                - generic [ref=e142]:
+                  - text: SignupPage
+                  - button "Open SignupPage in editor" [ref=e143] [cursor=pointer]:
+                    - img [ref=e144]
+                - text: src\app\(storefront)\signup\page.tsx (14:7)
+        - generic [ref=e146]: "1"
+        - generic [ref=e147]: "2"
+    - generic [ref=e50] [cursor=pointer]:
+      - button "Open Next.js Dev Tools" [ref=e51]:
+        - img [ref=e52]
+      - generic [ref=e148]:
+        - button "Open issues overlay" [ref=e149]:
+          - generic [ref=e150]:
+            - generic [ref=e151]: "0"
+            - generic [ref=e152]: "1"
+          - generic [ref=e153]: Issue
+        - button "Collapse issues badge" [ref=e154]:
+          - img [ref=e155]
+  - generic [ref=e158]:
+    - img [ref=e159]
+    - heading "This page couldn’t load" [level=1] [ref=e161]
+    - paragraph [ref=e162]: A server error occurred. Reload to try again.
+    - button "Reload" [ref=e165] [cursor=pointer]
+  - paragraph [ref=e166]: ERROR 2078772688

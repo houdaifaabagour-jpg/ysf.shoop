@@ -1,0 +1,56 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "ysf.shoop" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e5]:
+        - link "Shop" [ref=e6] [cursor=pointer]:
+          - /url: /shop
+        - link "Watches" [ref=e7] [cursor=pointer]:
+          - /url: /category/watches
+        - link "Glasses" [ref=e8] [cursor=pointer]:
+          - /url: /category/glasses
+        - link "Cart" [ref=e9] [cursor=pointer]:
+          - /url: /cart
+  - main [ref=e10]:
+    - generic [ref=e12]:
+      - heading "ysf.shoop" [level=1] [ref=e13]
+      - paragraph [ref=e14]: Premium watches and glasses curated for style and precision.
+      - generic [ref=e15]:
+        - link "Shop Now" [ref=e16] [cursor=pointer]:
+          - /url: /shop
+        - link "Watches" [ref=e17] [cursor=pointer]:
+          - /url: /category/watches
+        - link "Glasses" [ref=e18] [cursor=pointer]:
+          - /url: /category/glasses
+  - contentinfo [ref=e19]:
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - heading "ysf.shoop" [level=3] [ref=e23]
+          - paragraph [ref=e24]: Premium watches and glasses curated for style and precision.
+        - generic [ref=e25]:
+          - heading "Links" [level=3] [ref=e26]
+          - list [ref=e27]:
+            - listitem [ref=e28]:
+              - link "All Products" [ref=e29] [cursor=pointer]:
+                - /url: /shop
+            - listitem [ref=e30]:
+              - link "Watches" [ref=e31] [cursor=pointer]:
+                - /url: /category/watches
+            - listitem [ref=e32]:
+              - link "Glasses" [ref=e33] [cursor=pointer]:
+                - /url: /category/glasses
+        - generic [ref=e34]:
+          - heading "Support" [level=3] [ref=e35]
+          - list [ref=e36]:
+            - listitem [ref=e37]:
+              - link "My Account" [ref=e38] [cursor=pointer]:
+                - /url: /account
+            - listitem [ref=e39]:
+              - link "Order Tracking" [ref=e40] [cursor=pointer]:
+                - /url: /account/orders
+      - generic [ref=e41]: © 2026 ysf.shoop. All rights reserved.
+  - button "Open Next.js Dev Tools" [ref=e47] [cursor=pointer]:
+    - img [ref=e48]
+  - alert [ref=e51]

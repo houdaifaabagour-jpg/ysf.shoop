@@ -1,0 +1,63 @@
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "ysf.shoop" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e5]:
+        - link "Shop" [ref=e6] [cursor=pointer]:
+          - /url: /shop
+        - link "Watches" [ref=e7] [cursor=pointer]:
+          - /url: /category/watches
+        - link "Glasses" [ref=e8] [cursor=pointer]:
+          - /url: /category/glasses
+        - link "Cart" [ref=e9] [cursor=pointer]:
+          - /url: /cart
+  - main [ref=e10]:
+    - generic [ref=e11]:
+      - heading "Create Account" [level=1] [ref=e12]
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - text: Full Name
+          - textbox "Full Name" [active] [ref=e15]
+        - generic [ref=e16]:
+          - text: Email
+          - textbox "Email" [ref=e17]: customer@demo.com
+        - generic [ref=e18]:
+          - text: Password
+          - textbox "Password" [ref=e19]: demo123456
+        - button "Create Account" [ref=e20]
+        - paragraph [ref=e21]:
+          - text: Already have an account?
+          - link "Sign in" [ref=e22] [cursor=pointer]:
+            - /url: /login
+  - contentinfo [ref=e23]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - heading "ysf.shoop" [level=3] [ref=e27]
+          - paragraph [ref=e28]: Premium watches and glasses curated for style and precision.
+        - generic [ref=e29]:
+          - heading "Links" [level=3] [ref=e30]
+          - list [ref=e31]:
+            - listitem [ref=e32]:
+              - link "All Products" [ref=e33] [cursor=pointer]:
+                - /url: /shop
+            - listitem [ref=e34]:
+              - link "Watches" [ref=e35] [cursor=pointer]:
+                - /url: /category/watches
+            - listitem [ref=e36]:
+              - link "Glasses" [ref=e37] [cursor=pointer]:
+                - /url: /category/glasses
+        - generic [ref=e38]:
+          - heading "Support" [level=3] [ref=e39]
+          - list [ref=e40]:
+            - listitem [ref=e41]:
+              - link "My Account" [ref=e42] [cursor=pointer]:
+                - /url: /account
+            - listitem [ref=e43]:
+              - link "Order Tracking" [ref=e44] [cursor=pointer]:
+                - /url: /account/orders
+      - generic [ref=e45]: © 2026 ysf.shoop. All rights reserved.
+  - button "Open Next.js Dev Tools" [ref=e51] [cursor=pointer]:
+    - img [ref=e52]
+  - alert [ref=e55]

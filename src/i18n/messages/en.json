@@ -30,7 +30,8 @@
   "nav": {
     "shop": "Shop",
     "watches": "Watches",
-    "glasses": "Glasses"
+    "glasses": "Glasses",
+    "sunglasses": "Sunglasses"
   },
   "product": {
     "addToCart": "Add to Cart",
@@ -188,18 +189,37 @@
     "unauthorized": "Unauthorized",
     "serverError": "Server error. Please try again later."
   },
+  "extra": {
+    "welcomeBack": "Welcome Back",
+    "signInDesc": "Sign in to manage your orders",
+    "signUpDesc": "Join us now and get the best offers",
+    "rememberMe": "Remember me",
+    "information": "Information",
+    "confirmation": "Confirmation",
+    "next": "Next",
+    "edit": "Edit",
+    "notes": "Notes",
+    "products": "Products"
+  },
   "footer": {
     "tagline": "Premium watches and glasses curated for style and precision.",
     "links": "Links",
     "support": "Support",
-    "orderTracking": "Order Tracking",
-    "allRightsReserved": "All rights reserved."
+    "orderTracking": "Track Order",
+    "allRightsReserved": "All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "terms": "Terms & Conditions"
   },
   "home": {
-    "title": "ysf.shoop",
-    "tagline": "Premium watches and glasses curated for style and precision.",
+    "title": "Unlimited Elegance",
+    "tagline": "Discover a curated collection of luxury watches and glasses at the best prices.",
     "shopNow": "Shop Now",
-    "browseWatches": "Watches",
-    "browseGlasses": "Glasses"
+    "browseWatches": "Browse Watches",
+    "browseGlasses": "Browse Glasses",
+    "luxury": "Luxury Watches & Glasses",
+    "statWatches": "Luxury Watches",
+    "statGlasses": "Elegant Glasses",
+    "statShipping": "Free Shipping",
+    "statPayment": "Secure Payment"
   }
 }

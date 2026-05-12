@@ -1,15 +1,20 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, use } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { gsap } from "gsap";
 
-export default function Hero() {
+export default function Hero({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = use(params);
+  const t = useTranslations();
   const heroRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const taglineRef = useRef<HTMLParagraphElement>(null);
   const ctasRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!heroRef.current) return;
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       tl.fromTo(titleRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8 })
@@ -27,40 +32,40 @@ export default function Hero() {
       <section className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
         <div className="max-w-3xl">
           <span className="inline-block rounded-full bg-gold/10 px-4 py-1.5 text-xs font-medium tracking-wider text-gold uppercase mb-6">
-            ساعات ونظارات فاخرة
+            {t("home.luxury")}
           </span>
 
           <h1 ref={titleRef} className="text-4xl font-bold tracking-tight text-primary sm:text-5xl md:text-6xl lg:text-7xl leading-tight">
-            أناقة لا حدود لها
+            {t("home.title")}
           </h1>
 
           <p ref={taglineRef} className="mt-6 text-lg text-muted-foreground sm:text-xl max-w-xl">
-            اكتشف مجموعة مميزة من الساعات والنظارات الفاخرة بأفضل الأسعار
+            {t("home.tagline")}
           </p>
 
           <div ref={ctasRef} className="mt-10 flex flex-wrap gap-4">
-            <Link href="/shop" className="btn-luxury btn-luxury-primary">
-              تسوق الآن
+            <Link href={`/${locale}/shop`} className="btn-luxury btn-luxury-primary">
+              {t("home.shopNow")}
               <svg className="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </Link>
-            <Link href="/category/watches" className="btn-luxury btn-luxury-secondary">
-              استكشف الساعات
+            <Link href={`/${locale}/category/watches`} className="btn-luxury btn-luxury-secondary">
+              {t("home.browseWatches")}
             </Link>
           </div>
         </div>
 
         <div className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-8">
           {[
-            { label: "ساعات فاخرة", count: "50+" },
-            { label: "نظارات أنيقة", count: "30+" },
-            { label: "توصيل مجاني", count: "24/7" },
-            { label: "دفع آمن", count: "100%" },
+            { count: "50+", key: "home.statWatches" },
+            { count: "30+", key: "home.statGlasses" },
+            { count: "24/7", key: "home.statShipping" },
+            { count: "100%", key: "home.statPayment" },
           ].map((stat, i) => (
             <div key={i} className="text-center sm:text-right" style={{ animationDelay: `${i * 0.1}s` }}>
               <div className="text-2xl font-bold text-gold sm:text-3xl">{stat.count}</div>
-              <div className="mt-1 text-sm text-muted-foreground">{stat.label}</div>
+              <div className="mt-1 text-sm text-muted-foreground">{t(stat.key)}</div>
             </div>
           ))}
         </div>
@@ -70,5 +75,3 @@ export default function Hero() {
     </div>
   );
 }
-
-import { gsap } from "gsap";

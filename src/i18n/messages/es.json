@@ -186,7 +186,17 @@
     "siteDescription": "Descripción",
     "contactEmail": "Correo de contacto",
     "saveSettings": "Guardar",
-    "settingsSaved": "Ajustes guardados"
+    "settingsSaved": "Ajustes guardados",
+    "filterByCategory": "Todas las categorías",
+    "filterByStock": "Todo el inventario",
+    "filterByStatus": "Todos los estados",
+    "searchPlaceholder": "Buscar productos...",
+    "noVariants": "Sin variantes",
+    "filters": "Filtros:",
+    "addProductSub": "Gestionar catálogo, inventario e imágenes.",
+    "lowStock": "Stock bajo",
+    "noVariantsLabel": "No existen variantes aún",
+    "confirmDelete": "¿Desea eliminar este producto?"
   },
   "errors": {
     "requiredField": "Este campo es obligatorio",

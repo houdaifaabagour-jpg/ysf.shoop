@@ -146,7 +146,7 @@
     "productPrice": "السعر",
     "compareAtPrice": "سعر المقارنة",
     "productCategory": "الفئة",
-    "productImages": "الصور",
+    "productImages": "صور",
     "productSlug": "الرابط",
     "productStock": "المخزون",
     "inStock": "متوفر",
@@ -186,7 +186,17 @@
     "siteDescription": "وصف الموقع",
     "contactEmail": "بريد التواصل",
     "saveSettings": "حفظ الإعدادات",
-    "settingsSaved": "تم حفظ الإعدادات بنجاح"
+    "settingsSaved": "تم حفظ الإعدادات بنجاح",
+    "filterByCategory": "كل الفئات",
+    "filterByStock": "كل المخزون",
+    "filterByStatus": "كل الحالات",
+    "searchPlaceholder": "ابحث عن المنتجات بالاسم أو الرابط...",
+    "noVariants": "لا توجد موديلات",
+    "filters": "الفلاتر:",
+    "addProductSub": "إدارة كتالوج الساعات والنظارات والمخزون والصور.",
+    "lowStock": "مخزون منخفض",
+    "noVariantsLabel": "لا توجد موديلات للمنتج",
+    "confirmDelete": "هل أنت متأكد من حذف هذا المنتج وجميع صوره نهائياً؟"
   },
   "errors": {
     "requiredField": "هذا الحقل مطلوب",

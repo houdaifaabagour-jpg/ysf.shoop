@@ -186,7 +186,17 @@
     "siteDescription": "Site Description",
     "contactEmail": "Contact Email",
     "saveSettings": "Save Settings",
-    "settingsSaved": "Settings saved successfully"
+    "settingsSaved": "Settings saved successfully",
+    "filterByCategory": "All Categories",
+    "filterByStock": "All Inventory",
+    "filterByStatus": "All Statuses",
+    "searchPlaceholder": "Search products by title, slug...",
+    "noVariants": "No variants",
+    "filters": "Filters:",
+    "addProductSub": "Manage your luxury watch and glasses catalog, inventory, and images.",
+    "lowStock": "Low Stock",
+    "noVariantsLabel": "No variants exist yet",
+    "confirmDelete": "Are you sure you want to permanently delete this product and all associated images?"
   },
   "errors": {
     "requiredField": "This field is required",

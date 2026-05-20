@@ -186,7 +186,17 @@
     "siteDescription": "Description",
     "contactEmail": "E-mail de contact",
     "saveSettings": "Enregistrer",
-    "settingsSaved": "Paramètres enregistrés"
+    "settingsSaved": "Paramètres enregistrés",
+    "filterByCategory": "Toutes catégories",
+    "filterByStock": "Tout l'inventaire",
+    "filterByStatus": "Tous les statuts",
+    "searchPlaceholder": "Rechercher des produits...",
+    "noVariants": "Aucune variante",
+    "filters": "Filtres :",
+    "addProductSub": "Gérer votre catalogue, inventaire et images.",
+    "lowStock": "Stock bas",
+    "noVariantsLabel": "Aucune variante existante",
+    "confirmDelete": "Voulez-vous supprimer ce produit ?"
   },
   "errors": {
     "requiredField": "Ce champ est requis",

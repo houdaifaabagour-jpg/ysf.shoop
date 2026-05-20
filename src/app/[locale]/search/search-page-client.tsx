@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { Search, X } from "lucide-react";
 import { ProductCardLuxury } from "@/components/storefront/product-card-luxury";
+import { getStorageUrl } from "@/lib/storage/client";
 
 export function SearchPageClient() {
   const router = useRouter();
@@ -93,7 +94,7 @@ export function SearchPageClient() {
                     name={product.title}
                     price={product.price}
                     compareAtPrice={product.compare_at_price}
-                    image={product.images?.[0]?.url ?? ""}
+                    image={getStorageUrl(product.images?.[0]?.url) ?? ""}
                     categoryName={product.category?.name}
                     locale={locale as string}
                   />

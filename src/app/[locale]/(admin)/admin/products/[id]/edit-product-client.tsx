@@ -17,6 +17,7 @@ import {
   reorderImages 
 } from "@/features/admin/product-image-actions";
 import { getStorageUrl } from "@/lib/storage/client";
+import { useToast } from "@/components/ui/toast";
 
 export interface ProductImage {
   id: string;
@@ -64,6 +65,7 @@ interface EditProductClientProps {
 export function EditProductClient({ product, categories, currencySymbol, locale }: EditProductClientProps) {
   const t = useTranslations("admin");
   const tc = useTranslations("common");
+  const { showToast } = useToast();
 
   // Safe translation helper with automatic English fallback
   const ta = (key: string, fallback: string) => {
@@ -155,9 +157,9 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
     startTransition(async () => {
       try {
         await updateProduct(product.id, formData);
-        alert(ta("settingsSaved", "Product saved successfully"));
+        showToast(ta("settingsSaved", "Product saved successfully"), "success");
       } catch (err) {
-        alert(err instanceof Error ? err.message : "Failed to update product");
+        showToast(err instanceof Error ? err.message : "Failed to update product", "error");
       }
     });
   };
@@ -235,9 +237,9 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
       try {
         await createVariant(product.id, fd);
         setNewVariant({ sku: "", label: "", stock: 0, priceOverride: "", color: "", size: "" });
-        alert("Variant created successfully");
+        showToast("Variant created successfully", "success");
       } catch (err) {
-        alert(err instanceof Error ? err.message : "Failed to create variant");
+        showToast(err instanceof Error ? err.message : "Failed to create variant", "error");
       } finally {
         setAddingVariant(false);
       }
@@ -250,8 +252,9 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
       try {
         await updateVariantStock(variantId, product.id, newStock);
         setVariants(prev => prev.map(v => v.id === variantId ? { ...v, stock: newStock } : v));
+        showToast("Inventory stock updated", "success");
       } catch (err) {
-        alert(err instanceof Error ? err.message : "Failed to update stock");
+        showToast(err instanceof Error ? err.message : "Failed to update stock", "error");
       }
     });
   };
@@ -262,8 +265,9 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
       try {
         await deleteVariant(variantId, product.id);
         setVariants(prev => prev.filter(v => v.id !== variantId));
+        showToast("Variant deleted successfully", "success");
       } catch (err) {
-        alert(err instanceof Error ? err.message : "Failed to delete variant");
+        showToast(err instanceof Error ? err.message : "Failed to delete variant", "error");
       }
     });
   };
@@ -295,9 +299,9 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
       try {
         await updateVariant(editingVariantId, product.id, fd);
         setEditingVariantId(null);
-        alert("Variant updated successfully");
+        showToast("Variant updated successfully", "success");
       } catch (err) {
-        alert(err instanceof Error ? err.message : "Failed to update variant");
+        showToast(err instanceof Error ? err.message : "Failed to update variant", "error");
       }
     });
   };

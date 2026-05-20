@@ -47,7 +47,11 @@
     "writeReview": "اكتب تقييم",
     "noReviews": "لا توجد تقييمات بعد.",
     "description": "الوصف",
-    "details": "التفاصيل"
+    "details": "التفاصيل",
+    "brand": "العلامة التجارية",
+    "model": "الموديل",
+    "material": "الخامة",
+    "stock": "المخزون"
   },
   "cart": {
     "yourCart": "سلة التسوق",

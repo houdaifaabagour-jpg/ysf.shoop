@@ -7,6 +7,7 @@ import { CheckCircleIcon } from "@shopify/polaris-icons";
 import { formatPrice } from "@/lib/format";
 import { createCODOrder } from "@/features/checkout/actions";
 import { Cart, CartItem } from "@/types/database";
+import { useToast } from "@/components/ui/toast";
 
 interface Country {
   code: string;
@@ -34,6 +35,7 @@ interface CheckoutClientProps {
 
 export function CheckoutClient({ cart, locale, settings, countries }: CheckoutClientProps) {
   const t = useTranslations();
+  const { showToast } = useToast();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({ fullName: "", phone: "", city: "", country: settings?.currency_symbol ? countries[0]?.code || "MA" : "MA", address: "", deliveryNotes: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -67,7 +69,7 @@ export function CheckoutClient({ cart, locale, settings, countries }: CheckoutCl
       await createCODOrder(formData);
     } catch (e) {
       console.error(e);
-      alert(t("errors.default") || "An error occurred");
+      showToast(t("errors.default") || "An error occurred", "error");
       setIsSubmitting(false);
     }
   };

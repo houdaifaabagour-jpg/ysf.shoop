@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import { ProductImage } from "@/components/ui/product-image";
 import { Minus, Plus, ShoppingBag, Truck, Shield, RotateCcw } from "lucide-react";
 import { formatPrice } from "@/lib/format";
+import { useToast } from "@/components/ui/toast";
 
 interface ProductPageClientProps {
   params: Promise<{ slug: string; locale: string }>;
@@ -30,11 +31,13 @@ interface ProductPageClientProps {
     compare_at_price?: number | null;
     image: string;
   }[];
+  currencySymbol?: string;
 }
 
-export function ProductPageClient({ params, initialProduct, relatedProducts }: ProductPageClientProps) {
+export function ProductPageClient({ params, initialProduct, relatedProducts, currencySymbol }: ProductPageClientProps) {
   const { slug, locale } = use(params);
   const t = useTranslations();
+  const { showToast } = useToast();
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const product = initialProduct;
@@ -53,10 +56,10 @@ export function ProductPageClient({ params, initialProduct, relatedProducts }: P
     try {
       const { addToCart } = await import("@/features/cart/actions");
       await addToCart(product.id, undefined, quantity);
-      alert(locale === "ar" ? "تمت إضافة المنتج للسلة!" : "Product added to cart!");
+      showToast(locale === "ar" ? "تمت إضافة المنتج للسلة!" : "Product added to cart!", "success");
     } catch (e) {
       console.error(e);
-      alert(locale === "ar" ? "حدث خطأ أثناء إضافة المنتج" : "Failed to add product");
+      showToast(locale === "ar" ? "حدث خطأ أثناء إضافة المنتج" : "Failed to add product", "error");
     } finally {
       setIsAdding(false);
     }
@@ -109,7 +112,7 @@ export function ProductPageClient({ params, initialProduct, relatedProducts }: P
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-primary">{product.title}</h1>
 
             <div className="mt-4 text-2xl font-semibold text-primary">
-              {formatPrice(product.price)}
+              {formatPrice(product.price, currencySymbol)}
             </div>
 
             <div className="mt-6 space-y-2.5 text-sm border-t border-border pt-6">
@@ -168,7 +171,7 @@ export function ProductPageClient({ params, initialProduct, relatedProducts }: P
                     </div>
                     <div className="p-4">
                       <h3 className="text-sm font-medium text-primary line-clamp-2">{p.title}</h3>
-                      <p className="text-sm font-semibold text-primary mt-2">{formatPrice(p.price)}</p>
+                      <p className="text-sm font-semibold text-primary mt-2">{formatPrice(p.price, currencySymbol)}</p>
                     </div>
                   </div>
                 </Link>

@@ -47,7 +47,11 @@
     "writeReview": "Escribir opinión",
     "noReviews": "Aún no hay opiniones.",
     "description": "Descripción",
-    "details": "Detalles"
+    "details": "Detalles",
+    "brand": "Marca",
+    "model": "Modelo",
+    "material": "Material",
+    "stock": "Stock"
   },
   "cart": {
     "yourCart": "Tu carrito",

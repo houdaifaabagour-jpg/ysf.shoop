@@ -11,6 +11,7 @@ import { formatPrice } from "@/lib/format";
 import { createProduct, deleteProduct, toggleProductActive, toggleProductFeatured } from "@/features/admin/actions";
 import { ImageManagerButton } from "@/components/admin/image-manager-button";
 import { getStorageUrl } from "@/lib/storage/client";
+import { useToast } from "@/components/ui/toast";
 
 interface ProductImage {
   url: string;
@@ -50,6 +51,7 @@ interface ProductsClientProps {
 export function ProductsClient({ initialProducts, categories, currencySymbol, locale }: ProductsClientProps) {
   const t = useTranslations("admin");
   const tc = useTranslations("common");
+  const { showToast } = useToast();
 
   // Safe translation helper with automatic English fallback
   const ta = (key: string, fallback: string) => {
@@ -152,8 +154,9 @@ export function ProductsClient({ initialProducts, categories, currencySymbol, lo
         setSelectedFiles([]);
         setPreviewUrls([]);
         setIsFormOpen(false);
+        showToast(locale === "ar" ? "تم إنشاء المنتج بنجاح!" : "Product created successfully!", "success");
       } catch (err) {
-        alert(err instanceof Error ? err.message : "Failed to create product");
+        showToast(err instanceof Error ? err.message : "Failed to create product", "error");
       }
     });
   };
@@ -166,8 +169,9 @@ export function ProductsClient({ initialProducts, categories, currencySymbol, lo
         setProducts(prev => 
           prev.map(p => p.id === productId ? { ...p, is_active: !currentStatus } : p)
         );
+        showToast(locale === "ar" ? "تم تحديث حالة تفعيل المنتج!" : "Product active state updated!", "success");
       } catch (err) {
-        alert(err instanceof Error ? err.message : "Failed to update product state");
+        showToast(err instanceof Error ? err.message : "Failed to update product state", "error");
       }
     });
   };
@@ -179,8 +183,9 @@ export function ProductsClient({ initialProducts, categories, currencySymbol, lo
         setProducts(prev => 
           prev.map(p => p.id === productId ? { ...p, is_featured: !currentStatus } : p)
         );
+        showToast(locale === "ar" ? "تم تحديث حالة المنتج المميز!" : "Product featured state updated!", "success");
       } catch (err) {
-        alert(err instanceof Error ? err.message : "Failed to update featured state");
+        showToast(err instanceof Error ? err.message : "Failed to update featured state", "error");
       }
     });
   };
@@ -193,8 +198,9 @@ export function ProductsClient({ initialProducts, categories, currencySymbol, lo
       try {
         await deleteProduct(productId);
         setProducts(prev => prev.filter(p => p.id !== productId));
+        showToast(locale === "ar" ? "تم حذف المنتج بنجاح!" : "Product deleted successfully!", "success");
       } catch (err) {
-        alert(err instanceof Error ? err.message : "Failed to delete product");
+        showToast(err instanceof Error ? err.message : "Failed to delete product", "error");
       }
     });
   };

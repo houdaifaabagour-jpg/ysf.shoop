@@ -10,6 +10,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ShoppingBag } from "lucide-react";
 import { ProductImage } from "@/components/ui/product-image";
 import { formatPrice } from "@/lib/format";
+import { getStorageUrl } from "@/lib/storage/client";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -70,7 +71,7 @@ export function ProductCard({ product, index = 0, locale = "en" }: ProductCardPr
             <div className="relative aspect-square overflow-hidden bg-muted">
               {image ? (
                 <ProductImage
-                  src={image.url}
+                  src={getStorageUrl(image.url) || "/placeholder.jpg"}
                   alt={image.alt ?? product.title}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"

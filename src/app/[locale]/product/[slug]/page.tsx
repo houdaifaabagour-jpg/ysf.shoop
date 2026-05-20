@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { getProduct, getRelatedProducts } from "@/features/catalog/queries";
 import { ProductPageClient } from "./product-client";
 import { ProductSchema, BreadcrumbSchema } from "@/components/seo/json-ld";
+import { getStorageUrl } from "@/lib/storage/client";
+import { getStoreSettings } from "@/lib/settings";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ysf.shoop";
 
@@ -34,17 +36,19 @@ export default async function ProductPageWrapper({ params }: { params: Promise<{
   const { slug, locale } = await params;
   const product = await getProduct(slug);
   const relatedProducts = product ? await getRelatedProducts(product.id) : [];
+  const settings = await getStoreSettings();
+  const currencySymbol = settings.currency_symbol || "ر.س";
 
   const productData = product ? {
     ...product,
-    images: product.images?.map(img => img.url) ?? [],
+    images: product.images?.map(img => getStorageUrl(img.url) || "") ?? [],
     specs: product.variants?.[0]?.attributes ?? {},
     stock: product.variants?.[0]?.stock ?? 0
   } : null;
 
   const relatedData = relatedProducts.map(p => ({
     ...p,
-    image: p.images?.[0]?.url ?? "/placeholder.jpg"
+    image: getStorageUrl(p.images?.[0]?.url) ?? "/placeholder.jpg"
   }));
 
   return (
@@ -57,7 +61,7 @@ export default async function ProductPageWrapper({ params }: { params: Promise<{
             price={product.price}
             currency="SAR"
             url={`${siteUrl}/${locale}/product/${product.slug}`}
-            image={product.images?.[0]?.url ?? ""}
+            image={getStorageUrl(product.images?.[0]?.url) ?? ""}
             brand={product.category?.name}
           />
           <BreadcrumbSchema
@@ -72,6 +76,7 @@ export default async function ProductPageWrapper({ params }: { params: Promise<{
         params={params} 
         initialProduct={productData}
         relatedProducts={relatedData}
+        currencySymbol={currencySymbol}
       />
     </>
   );

@@ -47,7 +47,11 @@
     "writeReview": "Écrire un avis",
     "noReviews": "Aucun avis pour le moment.",
     "description": "Description",
-    "details": "Détails"
+    "details": "Détails",
+    "brand": "Marque",
+    "model": "Modèle",
+    "material": "Matériau",
+    "stock": "Stock"
   },
   "cart": {
     "yourCart": "Votre panier",

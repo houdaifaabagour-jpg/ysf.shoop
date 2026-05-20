@@ -9,8 +9,10 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const intlMiddleware = createMiddleware(routing);
 
 export async function proxy(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request: { headers: request.headers } });
+  // 1. Run next-intl middleware first to handle internationalized routing and redirects
+  const response = intlMiddleware(request) as NextResponse;
 
+  // 2. Refresh and update Supabase cookies directly on the final internationalized response
   const supabase = createServerClient(supabaseUrl, supabaseKey, {
     cookies: {
       getAll() {
@@ -18,23 +20,17 @@ export async function proxy(request: NextRequest) {
       },
       setAll(cookiesToSet) {
         cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-        supabaseResponse = NextResponse.next({ request });
         cookiesToSet.forEach(({ name, value, options }) =>
-          supabaseResponse.cookies.set(name, value, options),
+          response.cookies.set(name, value, options)
         );
       },
     },
   });
 
+  // 3. Refresh user session if necessary
   await supabase.auth.getUser();
 
-  const intlResponse = intlMiddleware(request) as NextResponse;
-  
-  supabaseResponse.cookies.getAll().forEach((cookie) => {
-    intlResponse.cookies.set(cookie);
-  });
-
-  return intlResponse;
+  return response;
 }
 
 export const config = {

@@ -5,11 +5,14 @@ import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useRouter, usePathname } from "@/i18n/routing";
 
 gsap.registerPlugin(useGSAP);
 
 export function Header({ locale }: { locale: string }) {
   const t = useTranslations();
+  const router = useRouter();
+  const pathname = usePathname();
   const [cartCount, setCartCount] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -17,6 +20,12 @@ export function Header({ locale }: { locale: string }) {
   const barTopRef = useRef<HTMLSpanElement>(null);
   const barMidRef = useRef<HTMLSpanElement>(null);
   const barBotRef = useRef<HTMLSpanElement>(null);
+
+  const handleLanguageSwitch = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const nextLocale = locale === "en" ? "ar" : "en";
+    router.replace(pathname, { locale: nextLocale });
+  };
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -90,12 +99,12 @@ export function Header({ locale }: { locale: string }) {
                 )}
               </Link>
 
-              <Link
-                href={`/${locale === "en" ? "ar" : "en"}`}
-                className="text-[11px] font-medium px-2 py-1 rounded-full bg-gold/10 text-gold hover:bg-gold/20 transition-colors tracking-wider"
+              <button
+                onClick={handleLanguageSwitch}
+                className="text-[11px] font-medium px-2 py-1 rounded-full bg-gold/10 text-gold hover:bg-gold/20 transition-colors tracking-wider cursor-pointer focus:outline-none"
               >
                 {locale === "en" ? "AR" : "EN"}
-              </Link>
+              </button>
 
               <Link
                 href={`/${locale}/login`}

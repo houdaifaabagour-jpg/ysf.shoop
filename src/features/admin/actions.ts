@@ -46,6 +46,19 @@ export async function createProduct(formData: FormData) {
     throw new Error(error?.message || "Failed to create product");
   }
 
+  // Create a default Standard variant with the initial stock quantity
+  const stockInput = formData.get("stock");
+  const stock = stockInput !== null ? parseInt(stockInput as string) : 0;
+  await supabase.from("product_variants").insert({
+    product_id: product.id,
+    sku: `${parsed.data.slug}-std`,
+    label: "Standard",
+    attributes: {},
+    price_override: null,
+    stock: stock,
+    is_active: true,
+  });
+
   const images = formData.getAll("images") as File[];
   if (images && images.length > 0) {
     const adminClient = await createAdminClient();
@@ -107,6 +120,23 @@ export async function updateProduct(id: string, formData: FormData) {
 
   const { error } = await supabase.from("products").update(updates).eq("id", id);
   if (error) throw new Error(error.message);
+
+  // Update inline stock for simple products (having exactly 1 variant)
+  const stockInput = formData.get("stock");
+  if (stockInput !== null && !isNaN(parseInt(stockInput as string))) {
+    const stockVal = parseInt(stockInput as string);
+    const { data: currentVariants } = await supabase
+      .from("product_variants")
+      .select("id")
+      .eq("product_id", id);
+    
+    if (currentVariants && currentVariants.length === 1) {
+      await supabase
+        .from("product_variants")
+        .update({ stock: stockVal, updated_at: new Date().toISOString() })
+        .eq("id", currentVariants[0].id);
+    }
+  }
 
   logger.info("product_updated", { id });
   logAudit("update", "product", id, { updates: Object.keys(updates) });

@@ -45,7 +45,7 @@ export async function uploadProductImage(productId: string, formData: FormData):
     .eq("product_id", productId)
     .order("sort_order", { ascending: false })
     .limit(1)
-    .single();
+    .maybeSingle();
 
   const nextOrder = (existing?.sort_order ?? -1) + 1;
   const { data: image, error: dbError } = await supabase
@@ -89,7 +89,7 @@ export async function addImageByUrl(productId: string, formData: FormData): Prom
     .eq("product_id", productId)
     .order("sort_order", { ascending: false })
     .limit(1)
-    .single();
+    .maybeSingle();
 
   const nextOrder = (existing?.sort_order ?? -1) + 1;
   const { data: image, error } = await supabase

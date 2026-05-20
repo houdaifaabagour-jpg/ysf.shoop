@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useRef, useTransition } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { 
   X, Upload, Link as LinkIcon, GripVertical, Trash2, Loader2, ImagePlus, Plus, 
-  Settings, Image, Layers, Sliders, ChevronLeft, Save, PlusCircle, Check
+  Settings, Image, Sliders, ChevronLeft, Save, PlusCircle, Check
 } from "lucide-react";
 import { formatPrice } from "@/lib/format";
 import { updateProduct, createVariant, updateVariant, deleteVariant, updateVariantStock } from "@/features/admin/actions";
@@ -61,6 +62,19 @@ interface EditProductClientProps {
 }
 
 export function EditProductClient({ product, categories, currencySymbol, locale }: EditProductClientProps) {
+  const t = useTranslations("admin");
+  const tc = useTranslations("common");
+
+  // Safe translation helper with automatic English fallback
+  const ta = (key: string, fallback: string) => {
+    try {
+      const val = t(key);
+      return val && val !== `admin.${key}` && val !== key ? val : fallback;
+    } catch {
+      return fallback;
+    }
+  };
+
   const [activeTab, setActiveTab] = useState<"info" | "media" | "variants">("info");
   const [isPending, startTransition] = useTransition();
 
@@ -86,12 +100,25 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
   const [editingVariantId, setEditingVariantId] = useState<string | null>(null);
   const [editingVariantData, setEditingVariantData] = useState({ sku: "", label: "", stock: 0, priceOverride: "", color: "", size: "" });
 
-  // Sync state with props
+  // Sync state with props using efficient render-time updating to avoid ESLint useEffect warning
   const [prevProduct, setPrevProduct] = useState(product);
   if (product.id !== prevProduct.id || product.images !== prevProduct.images || product.variants !== prevProduct.variants) {
     setImages(product.images || []);
     setVariants(product.variants || []);
     setPrevProduct(product);
+  }
+
+  const isSimpleProduct = variants.length === 1;
+  const simpleProductVariant = isSimpleProduct ? variants[0] : null;
+  const [simpleStock, setSimpleStock] = useState(simpleProductVariant?.stock ?? 0);
+
+  // Sync simple stock if variants state changes
+  const [prevVariants, setPrevVariants] = useState(variants);
+  if (variants !== prevVariants) {
+    if (isSimpleProduct && variants[0]) {
+      setSimpleStock(variants[0].stock);
+    }
+    setPrevVariants(variants);
   }
 
   // General Info Handlers
@@ -128,7 +155,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
     startTransition(async () => {
       try {
         await updateProduct(product.id, formData);
-        alert("Product saved successfully");
+        alert(ta("settingsSaved", "Product saved successfully"));
       } catch (err) {
         alert(err instanceof Error ? err.message : "Failed to update product");
       }
@@ -148,7 +175,6 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
       const result = await uploadProductImage(product.id, fd);
       if (result.error) { setMediaError(result.error); break; }
     }
-    // Simple state reload (using parent revalidation, but local optimistic update is nicer if we fetch images)
     window.location.reload();
   };
 
@@ -164,7 +190,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
   };
 
   const handleImageDelete = async (imageId: string) => {
-    if (!confirm("Delete this image?")) return;
+    if (!confirm(ta("deleteConfirm", "Delete this image?"))) return;
     setMediaError(null);
     const result = await deleteProductImage(imageId);
     if (result.error) { setMediaError(result.error); return; }
@@ -286,7 +312,9 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
           </Link>
           <div className="min-w-0">
             <h1 className="text-3xl font-bold tracking-tight text-primary truncate">{product.title}</h1>
-            <p className="text-sm text-neutral-text-muted mt-1">Configure general fields, upload media, and manage precise color/size inventory.</p>
+            <p className="text-sm text-neutral-text-muted mt-1">
+              {ta("editProductSub", "Configure general fields, upload media, and manage precise color/size inventory.")}
+            </p>
           </div>
         </div>
       </div>
@@ -294,9 +322,9 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
       {/* Tabs Navigation */}
       <div className="flex border-b border-neutral-border bg-white rounded-t-2xl px-6 pt-2 gap-4">
         {[
-          { id: "info", label: "General Info", icon: Settings },
-          { id: "media", label: "Media Manager", icon: Image },
-          { id: "variants", label: "Variants & Stock", icon: Sliders },
+          { id: "info", label: ta("generalInfo", "General Info"), icon: Settings },
+          { id: "media", label: ta("productImages", "Media Manager"), icon: Image },
+          { id: "variants", label: ta("productStock", "Variants & Stock"), icon: Sliders },
         ].map((tab) => {
           const Icon = tab.icon;
           const active = activeTab === tab.id;
@@ -325,7 +353,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
           <form action={handleUpdateProduct} className="space-y-6 max-w-4xl">
             <div className="grid gap-6 sm:grid-cols-2">
               <div className="col-span-full">
-                <label className="block text-xs font-bold text-neutral-text-muted mb-1.5">Product Title *</label>
+                <label className="block text-xs font-bold text-neutral-text-muted mb-1.5">{ta("productTitle", "Product Title")} *</label>
                 <input 
                   name="title" 
                   value={title} 
@@ -336,7 +364,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-neutral-text-muted mb-1.5">Slug (Auto-generated) *</label>
+                <label className="block text-xs font-bold text-neutral-text-muted mb-1.5">{ta("productSlug", "Slug (Auto-generated)")} *</label>
                 <input 
                   name="slug" 
                   value={slug} 
@@ -347,13 +375,13 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-neutral-text-muted mb-1.5">Category</label>
+                <label className="block text-xs font-bold text-neutral-text-muted mb-1.5">{ta("productCategory", "Category")}</label>
                 <select 
                   name="categoryId" 
                   defaultValue={product.category_id ?? ""} 
                   className="w-full rounded-lg border border-neutral-border-light px-3 py-2.5 text-sm bg-white focus:border-accent focus:outline-none"
                 >
-                  <option value="">No Category</option>
+                  <option value="">{ta("selectCategory", "Select Category")}</option>
                   {categories.map((cat) => (
                     <option key={cat.id} value={cat.id}>{cat.name}</option>
                   ))}
@@ -361,7 +389,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-neutral-text-muted mb-1.5">Price ({currencySymbol}) *</label>
+                <label className="block text-xs font-bold text-neutral-text-muted mb-1.5">{ta("productPrice", "Price")} ({currencySymbol}) *</label>
                 <input 
                   name="price" 
                   type="number" 
@@ -373,7 +401,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-neutral-text-muted mb-1.5">Compare At Price ({currencySymbol})</label>
+                <label className="block text-xs font-bold text-neutral-text-muted mb-1.5">{ta("compareAtPrice", "Compare At Price")} ({currencySymbol})</label>
                 <input 
                   name="compareAtPrice" 
                   type="number" 
@@ -383,8 +411,22 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                 />
               </div>
 
+              {isSimpleProduct && (
+                <div>
+                  <label className="block text-xs font-bold text-neutral-text-muted mb-1.5">{ta("productStock", "Stock Quantity")} *</label>
+                  <input 
+                    name="stock" 
+                    type="number" 
+                    value={simpleStock} 
+                    onChange={e => setSimpleStock(parseInt(e.target.value) || 0)}
+                    required 
+                    className="w-full rounded-lg border border-neutral-border-light px-4 py-2.5 text-sm focus:border-accent focus:outline-none bg-neutral-warm/10 font-bold" 
+                  />
+                </div>
+              )}
+
               <div className="col-span-full">
-                <label className="block text-xs font-bold text-neutral-text-muted mb-1.5">Description</label>
+                <label className="block text-xs font-bold text-neutral-text-muted mb-1.5">{ta("productDescription", "Description")}</label>
                 <textarea 
                   name="description" 
                   defaultValue={product.description ?? ""} 
@@ -394,12 +436,12 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
               </div>
 
               <div className="col-span-full">
-                <label className="block text-xs font-bold text-neutral-text-muted mb-1.5">Tags (Press Enter to separate)</label>
+                <label className="block text-xs font-bold text-neutral-text-muted mb-1.5">{ta("tags", "Interactive Tags (Press Enter)")}</label>
                 <div className="flex flex-wrap gap-1.5 p-2 rounded-lg border border-neutral-border-light bg-neutral-warm/10 min-h-11">
                   {tags.map((tag, index) => (
                     <span key={tag} className="inline-flex items-center gap-1 rounded-full bg-accent/10 border border-accent/20 px-2.5 py-0.5 text-xs font-semibold text-accent">
                       {tag}
-                      <button type="button" onClick={() => removeTag(index)} className="hover:text-accent-dark transition-colors">
+                      <button type="button" onClick={() => removeTag(index)} className="hover:text-accent-dark transition-colors cursor-pointer">
                         <X className="w-3 h-3" />
                       </button>
                     </span>
@@ -408,7 +450,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                     value={tagInput}
                     onChange={e => setTagInput(e.target.value)}
                     onKeyDown={handleTagKeyDown}
-                    placeholder="Add tag..."
+                    placeholder={ta("addTagPlaceholder", "Add tag...")}
                     className="flex-1 bg-transparent px-1 text-sm focus:outline-none min-w-24 py-0.5" 
                   />
                 </div>
@@ -417,11 +459,11 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
               <div className="col-span-full flex gap-6 pt-2">
                 <label className="flex items-center gap-2 text-sm font-semibold text-primary cursor-pointer">
                   <input type="checkbox" name="isActive" defaultChecked={product.is_active} className="rounded border-neutral-border text-primary focus:ring-accent" />
-                  Active in catalog
+                  {ta("active", "Active in catalog")}
                 </label>
                 <label className="flex items-center gap-2 text-sm font-semibold text-primary cursor-pointer">
                   <input type="checkbox" name="isFeatured" defaultChecked={product.is_featured} className="rounded border-neutral-border text-primary focus:ring-accent" />
-                  Featured on homepage
+                  {ta("isFeatured", "Featured on homepage")}
                 </label>
               </div>
             </div>
@@ -430,13 +472,13 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
               <button 
                 type="submit" 
                 disabled={isPending}
-                className="btn-luxury btn-luxury-primary flex items-center justify-center gap-2"
+                className="btn-luxury btn-luxury-primary flex items-center justify-center gap-2 cursor-pointer"
               >
                 {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                <span>Save Changes</span>
+                <span>{ta("saveProduct", "Save Changes")}</span>
               </button>
               <Link href="/admin/products" className="text-sm font-semibold text-neutral-text-muted hover:text-primary transition-colors px-4 py-2">
-                Cancel
+                {ta("cancel", "Cancel")}
               </Link>
             </div>
           </form>
@@ -447,8 +489,10 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
           <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-neutral-border-light pb-4">
               <div>
-                <h3 className="text-base font-bold text-primary">Boutique Image Management</h3>
-                <p className="text-xs text-neutral-text-muted mt-0.5">Upload new files, link image URLs, sort them with Drag & Drop, and edit Alt SEO tags.</p>
+                <h3 className="text-base font-bold text-primary">{ta("boutiqueImageManagement", "Boutique Image Management")}</h3>
+                <p className="text-xs text-neutral-text-muted mt-0.5">
+                  {ta("imagesSub", "Upload new files, link image URLs, sort them with Drag & Drop, and edit Alt SEO tags.")}
+                </p>
               </div>
               <div className="flex gap-1 rounded-xl bg-neutral-warm p-1 self-start md:self-auto border border-neutral-border-light">
                 <button
@@ -457,7 +501,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                     mediaTab === "upload" ? "bg-white text-primary shadow-sm" : "text-neutral-text-muted hover:text-primary"
                   }`}
                 >
-                  <Upload className="h-3.5 w-3.5" /> Upload File
+                  <Upload className="h-3.5 w-3.5" /> {ta("uploadFile", "Upload File")}
                 </button>
                 <button
                   onClick={() => setMediaTab("url")}
@@ -465,7 +509,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                     mediaTab === "url" ? "bg-white text-primary shadow-sm" : "text-neutral-text-muted hover:text-primary"
                   }`}
                 >
-                  <LinkIcon className="h-3.5 w-3.5" /> URL Link
+                  <LinkIcon className="h-3.5 w-3.5" /> {ta("urlLink", "URL Link")}
                 </button>
               </div>
             </div>
@@ -480,8 +524,8 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                 className="group flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-neutral-border bg-neutral-warm/10 px-6 py-8 transition-colors hover:border-accent/40 hover:bg-accent/5 text-center max-w-xl"
               >
                 <ImagePlus className="mb-2 h-8 w-8 text-neutral-text-muted group-hover:text-accent transition-colors" />
-                <p className="text-xs font-bold text-primary">Drag images here or click to browse</p>
-                <p className="mt-1 text-[10px] text-neutral-text-muted">JPEG, PNG, WebP, AVIF — max 5MB each</p>
+                <p className="text-xs font-bold text-primary">{ta("dropzoneText", "Drag images here or click to browse")}</p>
+                <p className="mt-1 text-[10px] text-neutral-text-muted">{ta("dropzoneSub", "JPEG, PNG, WebP, AVIF — max 5MB each")}</p>
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -497,13 +541,13 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                   value={urlInput}
                   onChange={(e) => setUrlInput(e.target.value)}
                   placeholder="https://example.com/image.jpg"
-                  className="flex-1 rounded-lg border border-neutral-borderpx-4 py-2 text-sm focus:border-accent focus:outline-none"
+                  className="flex-1 rounded-lg border border-neutral-border px-4 py-2 text-sm focus:border-accent focus:outline-none"
                   onKeyDown={(e) => e.key === "Enter" && handleUrlAdd()}
                 />
                 <button
                   onClick={handleUrlAdd}
                   disabled={uploading || !urlInput}
-                  className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white hover:bg-accent-dark transition-colors disabled:opacity-50 flex items-center justify-center min-w-16"
+                  className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white hover:bg-accent-dark transition-colors disabled:opacity-50 flex items-center justify-center min-w-16 cursor-pointer"
                 >
                   {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Add"}
                 </button>
@@ -515,7 +559,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
               {images.length === 0 ? (
                 <div className="py-12 text-center rounded-xl border border-neutral-border bg-neutral-warm/20">
                   <Image className="w-8 h-8 mx-auto text-neutral-text-muted/40 mb-2" />
-                  <p className="text-sm text-neutral-text-muted">No images yet. Upload files or import URLs above.</p>
+                  <p className="text-sm text-neutral-text-muted">{ta("noImages", "No images yet. Upload files or import URLs above.")}</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
@@ -538,12 +582,12 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                           loading="lazy"
                         />
                         <div className="absolute left-1.5 top-1.5 cursor-grab rounded-lg bg-white/90 p-1 text-neutral-text-muted opacity-0 shadow-sm transition-opacity group-hover:opacity-100 active:cursor-grabbing">
-                          <GripVertical className="h-3.5 h-3.5" />
+                          <GripVertical className="h-3.5 w-3.5" />
                         </div>
                         <button
                           type="button"
                           onClick={() => handleImageDelete(img.id)}
-                          className="absolute right-1.5 top-1.5 rounded-lg bg-white/95 p-1.5 text-red-600 opacity-0 shadow-sm transition-opacity hover:bg-red-600 hover:text-white group-hover:opacity-100"
+                          className="absolute right-1.5 top-1.5 rounded-lg bg-white/95 p-1.5 text-red-600 opacity-0 shadow-sm transition-opacity hover:bg-red-600 hover:text-white group-hover:opacity-100 cursor-pointer"
                           title="Delete image"
                         >
                           <Trash2 className="h-3.5 w-3.5" />
@@ -566,23 +610,22 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
         {/* PANEL 3: VARIANTS & INVENTORY MANAGEMENT */}
         {activeTab === "variants" && (
           <div className="space-y-8">
-            {/* Split layout: List on Left, Create on Right */}
             <div className="grid gap-8 lg:grid-cols-3">
               {/* Variants table */}
               <div className="lg:col-span-2 space-y-4">
-                <h3 className="text-base font-bold text-primary">Current Models & Stock</h3>
+                <h3 className="text-base font-bold text-primary">{ta("currentModelsStock", "Current Models & Stock")}</h3>
                 
                 <div className="overflow-hidden rounded-xl border border-neutral-border bg-white shadow-sm">
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left">
                       <thead className="bg-neutral-warm/50 text-xs font-bold text-primary border-b border-neutral-border">
                         <tr>
-                          <th className="px-4 py-3">Variant Label</th>
-                          <th className="px-4 py-3">SKU</th>
-                          <th className="px-4 py-3 text-center">Attributes</th>
-                          <th className="px-4 py-3 text-center">Price Override</th>
-                          <th className="px-4 py-3 text-center">Stock level</th>
-                          <th className="px-4 py-3 text-right">Actions</th>
+                          <th className="px-4 py-3">{ta("variantLabel", "Variant Label")}</th>
+                          <th className="px-4 py-3">{ta("sku", "SKU")}</th>
+                          <th className="px-4 py-3 text-center">{ta("attributes", "Attributes")}</th>
+                          <th className="px-4 py-3 text-center">{ta("priceOverride", "Price Override")}</th>
+                          <th className="px-4 py-3 text-center">{ta("productStock", "Stock level")}</th>
+                          <th className="px-4 py-3 text-right">{ta("actions", "Actions")}</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-neutral-border-light">
@@ -591,7 +634,6 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                           return (
                             <tr key={v.id} className="hover:bg-neutral-warm/25 transition-colors">
                               {isEditingThis ? (
-                                /* Editing Row form inline */
                                 <td colSpan={6} className="p-4 bg-neutral-warm/40">
                                   <form onSubmit={handleUpdateVariant} className="grid gap-3 sm:grid-cols-5 text-xs">
                                     <div className="col-span-full font-bold text-accent mb-1">Editing Mode</div>
@@ -623,17 +665,16 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                                       className="rounded-lg border border-neutral-border bg-white px-2.5 py-1.5 focus:outline-none" 
                                     />
                                     <div className="flex items-center gap-1 justify-end">
-                                      <button type="submit" className="rounded-lg bg-primary text-white p-1.5 hover:bg-primary-light">
+                                      <button type="submit" className="rounded-lg bg-primary text-white p-1.5 hover:bg-primary-light cursor-pointer">
                                         <Check className="w-4 h-4" />
                                       </button>
-                                      <button type="button" onClick={() => setEditingVariantId(null)} className="rounded-lg bg-neutral-muted p-1.5 text-neutral-text-muted hover:text-primary">
+                                      <button type="button" onClick={() => setEditingVariantId(null)} className="rounded-lg bg-neutral-muted p-1.5 text-neutral-text-muted hover:text-primary cursor-pointer">
                                         <X className="w-4 h-4" />
                                       </button>
                                     </div>
                                   </form>
                                 </td>
                               ) : (
-                                /* Standard Row display */
                                 <>
                                   <td className="px-4 py-3.5 font-bold text-primary">{v.label}</td>
                                   <td className="px-4 py-3.5 font-mono text-xs">{v.sku}</td>
@@ -651,12 +692,11 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                                     {v.price_override ? formatPrice(v.price_override, currencySymbol) : "Default Price"}
                                   </td>
                                   <td className="px-4 py-3.5 text-center">
-                                    {/* Real-time Inline Stock Adjuster */}
                                     <div className="flex items-center justify-center gap-2">
                                       <button 
                                         type="button" 
                                         onClick={() => handleFastStockUpdate(v.id, v.stock, -1)}
-                                        className="w-6 h-6 rounded-full border border-neutral-border bg-white text-neutral-text-muted hover:text-primary active:bg-neutral-warm flex items-center justify-center font-bold text-xs"
+                                        className="w-6 h-6 rounded-full border border-neutral-border bg-white text-neutral-text-muted hover:text-primary active:bg-neutral-warm flex items-center justify-center font-bold text-xs cursor-pointer"
                                       >
                                         -
                                       </button>
@@ -666,7 +706,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                                       <button 
                                         type="button" 
                                         onClick={() => handleFastStockUpdate(v.id, v.stock, 1)}
-                                        className="w-6 h-6 rounded-full border border-neutral-border bg-white text-neutral-text-muted hover:text-primary active:bg-neutral-warm flex items-center justify-center font-bold text-xs"
+                                        className="w-6 h-6 rounded-full border border-neutral-border bg-white text-neutral-text-muted hover:text-primary active:bg-neutral-warm flex items-center justify-center font-bold text-xs cursor-pointer"
                                       >
                                         +
                                       </button>
@@ -676,14 +716,14 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                                     <div className="flex justify-end gap-1.5">
                                       <button 
                                         onClick={() => startEditVariant(v)}
-                                        className="rounded-lg p-1.5 text-neutral-text-muted hover:text-primary hover:bg-neutral-warm transition-colors"
+                                        className="rounded-lg p-1.5 text-neutral-text-muted hover:text-primary hover:bg-neutral-warm transition-colors cursor-pointer"
                                         title="Edit fields"
                                       >
                                         <Settings className="w-3.5 h-3.5" />
                                       </button>
                                       <button 
                                         onClick={() => handleDeleteVariant(v.id)}
-                                        className="rounded-lg p-1.5 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors"
+                                        className="rounded-lg p-1.5 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors cursor-pointer"
                                         title="Delete model"
                                       >
                                         <Trash2 className="w-3.5 h-3.5" />
@@ -711,12 +751,12 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
               {/* Create Variant Form */}
               <div className="space-y-4 border-l border-neutral-border-light lg:pl-6">
                 <h3 className="text-base font-bold text-primary flex items-center gap-2">
-                  <PlusCircle className="w-5 h-5 text-accent" /> Create New Model
+                  <PlusCircle className="w-5 h-5 text-accent" /> {ta("addVariant", "Create New Model")}
                 </h3>
                 
                 <form onSubmit={handleCreateVariant} className="rounded-xl border border-neutral-border bg-neutral-warm/25 p-4 space-y-4 shadow-sm">
                   <div>
-                    <label className="block text-xs font-bold text-neutral-text-muted mb-1">Model Name / Label *</label>
+                    <label className="block text-xs font-bold text-neutral-text-muted mb-1">{ta("variantLabel", "Model Name / Label")} *</label>
                     <input 
                       value={newVariant.label} 
                       onChange={e => setNewVariant({ ...newVariant, label: e.target.value })} 
@@ -727,7 +767,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-neutral-text-muted mb-1">Unique Model SKU *</label>
+                    <label className="block text-xs font-bold text-neutral-text-muted mb-1">{ta("variantSku", "Unique Model SKU")} *</label>
                     <input 
                       value={newVariant.sku} 
                       onChange={e => setNewVariant({ ...newVariant, sku: e.target.value })} 
@@ -739,7 +779,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-bold text-neutral-text-muted mb-1">Color (Attr)</label>
+                      <label className="block text-xs font-bold text-neutral-text-muted mb-1">{ta("variantColor", "Color (Attr)")}</label>
                       <input 
                         value={newVariant.color} 
                         onChange={e => setNewVariant({ ...newVariant, color: e.target.value })} 
@@ -748,7 +788,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-neutral-text-muted mb-1">Size (Attr)</label>
+                      <label className="block text-xs font-bold text-neutral-text-muted mb-1">{ta("variantSize", "Size (Attr)")}</label>
                       <input 
                         value={newVariant.size} 
                         onChange={e => setNewVariant({ ...newVariant, size: e.target.value })} 
@@ -760,7 +800,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-bold text-neutral-text-muted mb-1">Initial Stock *</label>
+                      <label className="block text-xs font-bold text-neutral-text-muted mb-1">{ta("productStock", "Initial Stock")} *</label>
                       <input 
                         type="number"
                         value={newVariant.stock} 
@@ -770,7 +810,7 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-neutral-text-muted mb-1">Price Override ({currencySymbol})</label>
+                      <label className="block text-xs font-bold text-neutral-text-muted mb-1">{ta("priceOverride", "Price Override")} ({currencySymbol})</label>
                       <input 
                         type="number"
                         step="0.01"
@@ -785,10 +825,10 @@ export function EditProductClient({ product, categories, currencySymbol, locale 
                   <button 
                     type="submit" 
                     disabled={addingVariant}
-                    className="w-full rounded-lg bg-primary hover:bg-primary-light text-white font-bold py-2.5 text-xs transition-colors shadow-sm flex items-center justify-center gap-1"
+                    className="w-full rounded-lg bg-primary hover:bg-primary-light text-white font-bold py-2.5 text-xs transition-colors shadow-sm flex items-center justify-center gap-1 cursor-pointer"
                   >
                     {addingVariant ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
-                    <span>Add Model Variant</span>
+                    <span>{ta("addVariant", "Add Model Variant")}</span>
                   </button>
                 </form>
               </div>

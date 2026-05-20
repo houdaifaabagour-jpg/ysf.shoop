@@ -46,6 +46,15 @@ export const reviewSchema = z.object({
   comment: z.string().max(1000).optional(),
 });
 
+export const imageFileSchema = z.object({
+  size: z.number().max(5 * 1024 * 1024, "Image must be under 5MB"),
+  type: z.enum(["image/jpeg", "image/png", "image/webp", "image/avif"], {
+    errorMap: () => ({ message: "Allowed types: JPEG, PNG, WebP, AVIF" }),
+  }),
+});
+
+export const imageUrlSchema = z.string().url("Must be a valid URL").startsWith("https", "Only HTTPS URLs are allowed");
+
 export type CheckoutInput = z.infer<typeof checkoutSchema>;
 export type ProductInput = z.infer<typeof productSchema>;
 export type CategoryInput = z.infer<typeof categorySchema>;

@@ -29,11 +29,12 @@ export async function proxy(request: NextRequest) {
   await supabase.auth.getUser();
 
   const intlResponse = intlMiddleware(request) as NextResponse;
-  intlResponse.cookies.getAll().forEach((cookie) => {
-    supabaseResponse.cookies.set(cookie);
+  
+  supabaseResponse.cookies.getAll().forEach((cookie) => {
+    intlResponse.cookies.set(cookie);
   });
 
-  return supabaseResponse;
+  return intlResponse;
 }
 
 export const config = {

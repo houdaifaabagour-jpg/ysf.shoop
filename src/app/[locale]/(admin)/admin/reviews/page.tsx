@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { StarFilledIcon, StarIcon } from "@shopify/polaris-icons";
 import { requireAdmin } from "@/lib/auth/get-session";
 import { getAllReviews } from "@/features/reviews/queries";
 import { approveReview, deleteReview } from "@/features/reviews/actions";
@@ -69,9 +70,14 @@ export default async function AdminReviewsPage({ searchParams }: Props) {
                 </td>
                 <td className="px-3 py-3">{review.profile?.full_name ?? review.profile?.email ?? "Unknown"}</td>
                 <td className="px-3 py-3">
-                  <span className="text-yellow-500">
-                    {"★".repeat(review.rating)}
-                    {"☆".repeat(5 - review.rating)}
+                  <span className="inline-flex gap-0.5">
+                    {Array.from({ length: 5 }).map((_, i) =>
+                      i < review.rating ? (
+                        <StarFilledIcon key={i} className="w-4 h-4 fill-yellow-500" />
+                      ) : (
+                        <StarIcon key={i} className="w-4 h-4 fill-muted" />
+                      )
+                    )}
                   </span>
                 </td>
                 <td className="px-3 py-3 max-w-xs truncate">{review.comment ?? "-"}</td>

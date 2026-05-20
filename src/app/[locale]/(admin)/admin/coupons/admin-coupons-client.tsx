@@ -45,7 +45,7 @@ function CouponForm({ coupon, onClose }: CouponFormProps) {
             <label className="block text-sm font-medium">Code</label>
             <input name="code" defaultValue={coupon?.code} required className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm uppercase" />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium">Type</label>
               <select name="type" defaultValue={coupon?.type} required className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm">
@@ -58,7 +58,7 @@ function CouponForm({ coupon, onClose }: CouponFormProps) {
               <input name="value" type="number" step="0.01" defaultValue={coupon?.value} required className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm" />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium">Min Order Amount</label>
               <input name="minOrderAmount" type="number" step="0.01" defaultValue={coupon?.min_order_amount ?? ""} placeholder="Optional" className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm" />
@@ -68,7 +68,7 @@ function CouponForm({ coupon, onClose }: CouponFormProps) {
               <input name="usageLimit" type="number" defaultValue={coupon?.usage_limit ?? ""} placeholder="Optional" className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm" />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium">Starts At</label>
               <input name="startsAt" type="datetime-local" defaultValue={coupon?.starts_at ? new Date(coupon.starts_at).toISOString().slice(0, 16) : ""} className="mt-1 w-full rounded-md border border-border px-3 py-2 text-sm" />
@@ -144,7 +144,7 @@ export function AdminCouponsClient({ coupons }: AdminCouponsClientProps) {
         </button>
       </div>
 
-      <div className="mt-6 overflow-hidden rounded-lg border border-border">
+      <div className="mt-6 overflow-x-auto rounded-lg border border-border">
         <table className="w-full">
           <thead className="bg-muted/50">
             <tr>

@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { requireAuth, requireAdmin } from "@/lib/auth/get-session";
 import { reviewSchema } from "@/lib/validation/schemas";
 import { logger } from "@/lib/logging/logger";
+import { logAudit } from "@/lib/audit/helper";
 
 type ActionState = { error?: string; success?: boolean };
 
@@ -72,6 +73,7 @@ export async function approveReview(reviewId: string) {
   }
 
   logger.info("review_approved", { reviewId });
+  logAudit("approve", "review", reviewId);
   revalidatePath("/admin/reviews");
 }
 
@@ -88,5 +90,6 @@ export async function deleteReview(reviewId: string) {
   }
 
   logger.info("review_deleted", { reviewId });
+  logAudit("delete", "review", reviewId);
   revalidatePath("/admin/reviews");
 }

@@ -2,7 +2,6 @@ export const localesConfig = {
   en: {
     name: "English",
     nativeName: "English",
-    flag: "🇬🇧",
     dir: "ltr",
     currency: "SAR",
     currencySymbol: "ر.س",
@@ -11,7 +10,6 @@ export const localesConfig = {
   ar: {
     name: "Arabic",
     nativeName: "العربية",
-    flag: "🇸🇦",
     dir: "rtl",
     currency: "SAR",
     currencySymbol: "ر.س",
@@ -20,7 +18,6 @@ export const localesConfig = {
   fr: {
     name: "French",
     nativeName: "Français",
-    flag: "🇫🇷",
     dir: "ltr",
     currency: "EUR",
     currencySymbol: "€",
@@ -29,7 +26,6 @@ export const localesConfig = {
   es: {
     name: "Spanish",
     nativeName: "Español",
-    flag: "🇪🇸",
     dir: "ltr",
     currency: "EUR",
     currencySymbol: "€",

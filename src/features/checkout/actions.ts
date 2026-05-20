@@ -5,11 +5,12 @@ import { createClient } from "@/lib/supabase/server";
 import { getSession, getProfile } from "@/lib/auth/get-session";
 import { checkoutSchema } from "@/lib/validation/schemas";
 import { logger } from "@/lib/logging/logger";
+import { orderConfirmationEmail } from "@/lib/email/service";
 
 export async function createCODOrder(formData: FormData) {
   const supabase = await createClient();
   const session = await getSession();
-  if (!session?.user) throw new Error("Please sign in to checkout");
+  const customer_id = session?.user?.id ?? null;
 
   const locale = formData.get("locale") as string || "en";
 
@@ -27,11 +28,8 @@ export async function createCODOrder(formData: FormData) {
     throw new Error("Invalid form data");
   }
 
-  const { data: cart } = await supabase
-    .from("carts")
-    .select("*, items:cart_items(*, product:products(*), variant:product_variants(*))")
-    .eq("customer_id", session.user.id)
-    .single();
+  const { getCart } = await import("@/features/cart/actions");
+  const cart = await getCart();
 
   if (!cart?.items?.length) throw new Error("Cart is empty");
 
@@ -87,7 +85,7 @@ export async function createCODOrder(formData: FormData) {
   const { data: order, error } = await supabase
     .from("orders")
     .insert({
-      customer_id: session.user.id,
+      customer_id: customer_id,
       status: "pending_confirmation",
       total: finalTotal,
       shipping_cost: shippingCost,
@@ -125,6 +123,10 @@ export async function createCODOrder(formData: FormData) {
   await supabase.from("cart_items").delete().eq("cart_id", cart.id);
 
   logger.info("order_created", { orderId: order.id, total: total + shippingCost });
+
+  if (session?.user?.email) {
+    orderConfirmationEmail(order.id, session.user.email, locale);
+  }
 
   redirect(`/${locale}/checkout/success?orderId=${order.id}`);
 }

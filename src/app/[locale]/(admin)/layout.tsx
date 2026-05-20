@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { AdminSidebar } from "@/components/admin/sidebar";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+  title: { template: "%s | Admin — ysf.shoop", default: "Admin — ysf.shoop" },
+};
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -7,11 +13,12 @@ interface AdminLayoutProps {
 
 export default async function AdminLayout({ children, params }: AdminLayoutProps) {
   const { locale } = await params;
+  const isRTL = locale === "ar";
 
   return (
-    <div lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+    <div lang={locale} dir={isRTL ? "rtl" : "ltr"}>
       <AdminSidebar locale={locale} />
-      <main className="flex-1 bg-muted/30 p-6 lg:p-8">{children}</main>
+      <main className={`min-h-screen bg-muted/30 p-4 pb-20 lg:pb-8 lg:p-8 ${isRTL ? "lg:mr-64" : "lg:ml-64"}`}>{children}</main>
     </div>
   );
 }

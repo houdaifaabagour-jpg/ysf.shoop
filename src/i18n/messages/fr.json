@@ -11,6 +11,8 @@
     "allProducts": "Tous les produits",
     "watches": "Montres",
     "glasses": "Lunettes",
+    "sunglasses": "Lunettes de soleil",
+    "products": "Produits",
     "myAccount": "Mon compte",
     "orders": "Commandes",
     "wishlist": "Favoris",
@@ -31,7 +33,9 @@
     "shop": "Boutique",
     "watches": "Montres",
     "glasses": "Lunettes",
-    "sunglasses": "Soleil"
+    "sunglasses": "Soleil",
+    "menu": "Menu",
+    "cart": "Panier"
   },
   "product": {
     "addToCart": "Ajouter au panier",
@@ -88,8 +92,10 @@
     "backToCart": "Retour au panier"
   },
   "auth": {
+    "welcomeBack": "Bon retour",
     "signIn": "Se connecter",
     "signInTitle": "Connexion",
+    "signInDesc": "Connectez-vous pour gérer vos commandes",
     "email": "E-mail",
     "password": "Mot de passe",
     "forgotPassword": "Mot de passe oublié ?",

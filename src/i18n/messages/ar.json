@@ -11,6 +11,8 @@
     "allProducts": "جميع المنتجات",
     "watches": "الساعات",
     "glasses": "النظارات",
+    "sunglasses": "نظارات شمسية",
+    "products": "المنتجات",
     "myAccount": "حسابي",
     "orders": "الطلبات",
     "wishlist": "المفضلة",
@@ -31,7 +33,9 @@
     "shop": "المتجر",
     "watches": "الساعات",
     "glasses": "النظارات",
-    "sunglasses": "نظارات شمسية"
+    "sunglasses": "نظارات شمسية",
+    "menu": "القائمة",
+    "cart": "السلة"
   },
   "product": {
     "addToCart": "أضف إلى السلة",
@@ -88,8 +92,10 @@
     "backToCart": "العودة للسلة"
   },
   "auth": {
+    "welcomeBack": "مرحباً بعودتك",
     "signIn": "تسجيل الدخول",
     "signInTitle": "تسجيل الدخول",
+    "signInDesc": "سجّل دخولك لإدارة طلباتك",
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
     "forgotPassword": "نسيت كلمة المرور؟",

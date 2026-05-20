@@ -1,3 +1,4 @@
+import { StarFilledIcon, StarIcon } from "@shopify/polaris-icons";
 import type { Review } from "@/types/database";
 
 type ReviewWithProfile = Review & {
@@ -19,12 +20,14 @@ export function ReviewList({ reviews }: ReviewListProps) {
         <div key={review.id} className="rounded-lg border border-border p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="flex text-yellow-500">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <span key={i} className={i < review.rating ? "text-yellow-500" : "text-muted"}>
-                    ★
-                  </span>
-                ))}
+              <div className="flex">
+                {Array.from({ length: 5 }).map((_, i) =>
+                  i < review.rating ? (
+                    <StarFilledIcon key={i} className="w-4 h-4 fill-yellow-500" />
+                  ) : (
+                    <StarIcon key={i} className="w-4 h-4 fill-muted" />
+                  )
+                )}
               </div>
               <span className="text-sm font-medium">
                 {review.profile?.full_name ?? "Anonymous"}

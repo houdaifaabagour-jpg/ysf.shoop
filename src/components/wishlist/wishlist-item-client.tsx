@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { ProductImage } from "@/components/ui/product-image";
 import { removeFromWishlist } from "@/features/wishlist/actions";
 import { Heart, Trash2, ShoppingCart } from "lucide-react";
 import { addToCart } from "@/features/cart/actions";
@@ -67,7 +67,7 @@ export function WishlistItemClient({ items }: WishlistItemClientProps) {
             <div className="aspect-square bg-muted">
               {image ? (
                 <Link href={`/product/${item.product!.slug}`}>
-                  <Image
+                  <ProductImage
                     src={image.url}
                     alt={image.alt ?? item.product!.title}
                     fill

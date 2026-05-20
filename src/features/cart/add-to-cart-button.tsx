@@ -11,9 +11,14 @@ export function AddToCartButton({
   variantId?: string;
   disabled?: boolean;
 }) {
+  const handleAdd = async () => {
+    await addToCart(productId, variantId);
+    window.dispatchEvent(new Event("cartUpdated"));
+  };
+
   return (
     <button
-      onClick={() => addToCart(productId, variantId)}
+      onClick={handleAdd}
       disabled={disabled}
       className="rounded-lg bg-primary px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-primary-light disabled:cursor-not-allowed disabled:opacity-50"
     >

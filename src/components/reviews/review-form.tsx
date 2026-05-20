@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { StarFilledIcon } from "@shopify/polaris-icons";
 import { submitReview } from "@/features/reviews/actions";
 
 type ReviewFormProps = {
@@ -30,9 +31,7 @@ export function ReviewForm({ productId }: ReviewFormProps) {
           {[1, 2, 3, 4, 5].map((star) => (
             <label key={star} className="cursor-pointer">
               <input type="radio" name="rating" value={star} className="peer sr-only" required />
-              <span className="text-2xl text-muted peer-checked:text-yellow-500 hover:text-yellow-400">
-                ★
-              </span>
+              <StarFilledIcon className="w-8 h-8 fill-muted peer-checked:fill-yellow-500 hover:fill-yellow-400 transition-colors" />
             </label>
           ))}
         </div>

@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { requireAdmin } from "@/lib/auth/get-session";
 import { couponSchema } from "@/lib/validation/schemas";
 import { logger } from "@/lib/logging/logger";
+import { logAudit } from "@/lib/audit/helper";
 
 export type ActionState = { error?: string; success?: boolean };
 
@@ -46,6 +47,7 @@ export async function createCoupon(_prev: ActionState | null, formData: FormData
   }
 
   logger.info("coupon_created", { code: parsed.data.code });
+  logAudit("create", "coupon", undefined, { code: parsed.data.code, type: parsed.data.type, value: parsed.data.value });
   revalidatePath("/admin/coupons");
   return { success: true };
 }
@@ -83,6 +85,7 @@ export async function updateCoupon(couponId: string, _prev: ActionState | null, 
   }
 
   logger.info("coupon_updated", { couponId });
+  logAudit("update", "coupon", couponId, { updates: Object.keys(updates) });
   revalidatePath("/admin/coupons");
   return { success: true };
 }
@@ -100,6 +103,7 @@ export async function deleteCoupon(couponId: string) {
   }
 
   logger.info("coupon_deleted", { couponId });
+  logAudit("delete", "coupon", couponId);
   revalidatePath("/admin/coupons");
 }
 

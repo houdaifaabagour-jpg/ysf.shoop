@@ -30,8 +30,12 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files
+.env
+.env.local
+.env.vercel
+.env.production
+.env.development
 
 # vercel
 .vercel
@@ -40,4 +44,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.vercel
+# local logs and tool folders
+*.log
+dev-server*.log
+dev-srv.log
+lint-results.json
+lint-results.txt
+.kilo/
+.playwright-mcp/
+stitch_design_system_integration/

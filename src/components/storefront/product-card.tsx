@@ -7,7 +7,9 @@ import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ShoppingBag, Heart } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
+import { ProductImage } from "@/components/ui/product-image";
+import { formatPrice } from "@/lib/format";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -16,9 +18,10 @@ if (typeof window !== "undefined") {
 interface ProductCardProps {
   product: Product;
   index?: number;
+  locale?: string;
 }
 
-export function ProductCard({ product, index = 0 }: ProductCardProps) {
+export function ProductCard({ product, index = 0, locale = "en" }: ProductCardProps) {
   const t = useTranslations("common");
   const cardRef = useRef<HTMLDivElement>(null);
   const image = product.images?.[0];
@@ -61,15 +64,16 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
 
   return (
     <div ref={cardRef} className="group opacity-0">
-      <div className="double-bezel p-1.5 transition-shadow hover:shadow-hover">
+      <div className="card-hover double-bezel p-1.5">
         <div className="double-bezel-inner overflow-hidden">
           <Link href={`/product/${product.slug}`} className="block">
             <div className="relative aspect-square overflow-hidden bg-muted">
               {image ? (
-                <img
+                <ProductImage
                   src={image.url}
                   alt={image.alt ?? product.title}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               ) : (
                 <div className="flex h-full items-center justify-center text-muted-foreground">
@@ -79,10 +83,10 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
                 </div>
               )}
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               {hasDiscount && (
-                <span className="absolute right-3 top-3 rounded-full bg-gold px-3 py-1 text-xs font-medium text-white shadow-sm">
+                <span className="absolute right-3 top-3 rounded-full bg-primary px-3 py-1 text-[11px] font-medium text-white tracking-wider uppercase">
                   {t("sale")}
                 </span>
               )}
@@ -90,26 +94,30 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
               <button
                 onClick={handleAddToCart}
                 disabled={adding}
-                className="absolute bottom-3 right-3 flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-sm font-medium shadow-lg opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 hover:bg-white disabled:opacity-50"
+                className="absolute bottom-3 right-3 flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-sm font-medium opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 hover:bg-white disabled:opacity-50 shadow-dropdown"
               >
                 <ShoppingBag className="w-4 h-4" />
                 {adding ? t("loading") : t("addToCart")}
               </button>
             </div>
 
-            <div className="p-4">
+            <div className="p-4 sm:p-5">
               {product.category && (
-                <p className="text-xs text-muted-foreground mb-1">{product.category.name}</p>
+                <p className="text-[11px] text-muted-foreground mb-1.5 tracking-wider uppercase">{product.category.name}</p>
               )}
 
-              <h3 className="text-sm font-medium text-primary line-clamp-2 group-hover:text-gold transition-colors">
+              <h3 className="text-sm font-medium text-primary line-clamp-2">
                 {product.title}
               </h3>
 
-              <div className="mt-2 flex items-center gap-2">
-                <span className="text-base font-bold text-gold">${product.price}</span>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="text-base font-semibold text-primary">
+                  {formatPrice(product.price)}
+                </span>
                 {hasDiscount && (
-                  <span className="text-sm text-muted-foreground line-through">${product.compare_at_price}</span>
+                  <span className="text-sm text-muted-foreground line-through">
+                    {formatPrice(product.compare_at_price!)}
+                  </span>
                 )}
               </div>
             </div>

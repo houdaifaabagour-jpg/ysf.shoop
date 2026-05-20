@@ -11,6 +11,8 @@
     "allProducts": "All Products",
     "watches": "Watches",
     "glasses": "Glasses",
+    "sunglasses": "Sunglasses",
+    "products": "Products",
     "myAccount": "My Account",
     "orders": "Orders",
     "wishlist": "Wishlist",
@@ -31,7 +33,9 @@
     "shop": "Shop",
     "watches": "Watches",
     "glasses": "Glasses",
-    "sunglasses": "Sunglasses"
+    "sunglasses": "Sunglasses",
+    "menu": "Menu",
+    "cart": "Cart"
   },
   "product": {
     "addToCart": "Add to Cart",
@@ -88,8 +92,10 @@
     "backToCart": "Back to Cart"
   },
   "auth": {
+    "welcomeBack": "Welcome Back",
     "signIn": "Sign In",
     "signInTitle": "Sign In",
+    "signInDesc": "Sign in to manage your orders",
     "email": "Email",
     "password": "Password",
     "forgotPassword": "Forgot password?",

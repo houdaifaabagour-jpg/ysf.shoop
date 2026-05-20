@@ -11,6 +11,8 @@
     "allProducts": "Todos los productos",
     "watches": "Relojes",
     "glasses": "Gafas",
+    "sunglasses": "Gafas de sol",
+    "products": "Productos",
     "myAccount": "Mi cuenta",
     "orders": "Pedidos",
     "wishlist": "Favoritos",
@@ -31,7 +33,9 @@
     "shop": "Tienda",
     "watches": "Relojes",
     "glasses": "Gafas",
-    "sunglasses": "Sol"
+    "sunglasses": "Sol",
+    "menu": "Menú",
+    "cart": "Carrito"
   },
   "product": {
     "addToCart": "Añadir al carrito",
@@ -88,8 +92,10 @@
     "backToCart": "Volver al carrito"
   },
   "auth": {
+    "welcomeBack": "Bienvenido de nuevo",
     "signIn": "Iniciar sesión",
     "signInTitle": "Iniciar sesión",
+    "signInDesc": "Inicia sesión para gestionar tus pedidos",
     "email": "Correo electrónico",
     "password": "Contraseña",
     "forgotPassword": "¿Olvidaste tu contraseña?",

@@ -101,6 +101,9 @@ export async function updateProduct(id: string, formData: FormData) {
   if (updates.compareAtPrice) updates.compare_at_price = parseFloat(updates.compareAtPrice as string);
   if (updates.isActive) updates.is_active = updates.isActive === "true";
   if (updates.isFeatured) updates.is_featured = updates.isFeatured === "true";
+  if (updates.tags !== undefined) {
+    updates.tags = (updates.tags as string).split(",").map((t) => t.trim()).filter(Boolean);
+  }
 
   const { error } = await supabase.from("products").update(updates).eq("id", id);
   if (error) throw new Error(error.message);
@@ -108,6 +111,7 @@ export async function updateProduct(id: string, formData: FormData) {
   logger.info("product_updated", { id });
   logAudit("update", "product", id, { updates: Object.keys(updates) });
   revalidatePath("/admin/products");
+  revalidatePath(`/admin/products/${id}`);
 }
 
 export async function deleteProduct(id: string) {
@@ -240,4 +244,144 @@ export async function updateSetting(key: string, formData: FormData) {
   clearSettingsCache();
   
   revalidatePath("/admin/settings");
+}
+
+export async function toggleProductActive(id: string, isActive: boolean) {
+  await requireAdmin();
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("products")
+    .update({ is_active: isActive, updated_at: new Date().toISOString() })
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
+
+  logger.info("product_toggle_active", { id, isActive });
+  logAudit("update", "product", id, { is_active: isActive });
+  revalidatePath("/admin/products");
+  revalidatePath(`/admin/products/${id}`);
+}
+
+export async function toggleProductFeatured(id: string, isFeatured: boolean) {
+  await requireAdmin();
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("products")
+    .update({ is_featured: isFeatured, updated_at: new Date().toISOString() })
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
+
+  logger.info("product_toggle_featured", { id, isFeatured });
+  logAudit("update", "product", id, { is_featured: isFeatured });
+  revalidatePath("/admin/products");
+  revalidatePath(`/admin/products/${id}`);
+}
+
+export async function createVariant(productId: string, formData: FormData) {
+  await requireAdmin();
+  const supabase = await createClient();
+
+  const sku = formData.get("sku") as string;
+  const label = formData.get("label") as string;
+  const stock = parseInt(formData.get("stock") as string) || 0;
+  const priceOverrideStr = formData.get("priceOverride") as string;
+  const priceOverride = priceOverrideStr ? parseFloat(priceOverrideStr) : null;
+
+  const color = formData.get("attribute_color") as string;
+  const size = formData.get("attribute_size") as string;
+  const attributes: Record<string, string> = {};
+  if (color) attributes.color = color;
+  if (size) attributes.size = size;
+
+  const { error } = await supabase
+    .from("product_variants")
+    .insert({
+      product_id: productId,
+      sku,
+      label,
+      attributes,
+      price_override: priceOverride,
+      stock,
+      is_active: true,
+    });
+
+  if (error) throw new Error(error.message);
+
+  logger.info("variant_created", { productId, sku });
+  logAudit("create", "variant", undefined, { productId, sku, label });
+  revalidatePath(`/admin/products/${productId}`);
+  revalidatePath("/admin/products");
+}
+
+export async function updateVariant(variantId: string, productId: string, formData: FormData) {
+  await requireAdmin();
+  const supabase = await createClient();
+
+  const sku = formData.get("sku") as string;
+  const label = formData.get("label") as string;
+  const stock = parseInt(formData.get("stock") as string) || 0;
+  const priceOverrideStr = formData.get("priceOverride") as string;
+  const priceOverride = priceOverrideStr ? parseFloat(priceOverrideStr) : null;
+
+  const color = formData.get("attribute_color") as string;
+  const size = formData.get("attribute_size") as string;
+  const attributes: Record<string, string> = {};
+  if (color) attributes.color = color;
+  if (size) attributes.size = size;
+
+  const { error } = await supabase
+    .from("product_variants")
+    .update({
+      sku,
+      label,
+      attributes,
+      price_override: priceOverride,
+      stock,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", variantId);
+
+  if (error) throw new Error(error.message);
+
+  logger.info("variant_updated", { variantId });
+  logAudit("update", "variant", variantId, { sku, label });
+  revalidatePath(`/admin/products/${productId}`);
+  revalidatePath("/admin/products");
+}
+
+export async function deleteVariant(variantId: string, productId: string) {
+  await requireAdmin();
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("product_variants")
+    .delete()
+    .eq("id", variantId);
+
+  if (error) throw new Error(error.message);
+
+  logger.info("variant_deleted", { variantId });
+  logAudit("delete", "variant", variantId);
+  revalidatePath(`/admin/products/${productId}`);
+  revalidatePath("/admin/products");
+}
+
+export async function updateVariantStock(variantId: string, productId: string, stock: number) {
+  await requireAdmin();
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("product_variants")
+    .update({ stock, updated_at: new Date().toISOString() })
+    .eq("id", variantId);
+
+  if (error) throw new Error(error.message);
+
+  logger.info("variant_stock_updated", { variantId, stock });
+  logAudit("update", "variant_stock", variantId, { stock });
+  revalidatePath(`/admin/products/${productId}`);
+  revalidatePath("/admin/products");
 }
